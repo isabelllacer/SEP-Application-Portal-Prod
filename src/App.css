@@ -26,6 +26,7 @@ header i {
 
 .table {
   display: flex;
+  flex-direction: column;
   max-width: 1300px;
   margin: 0 auto;
   padding-top: 30px;
@@ -36,7 +37,7 @@ header i {
   display: flex;
   background-color: #fff;
   color: #000;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
   text-align: center;
 }
 
@@ -47,9 +48,12 @@ header i {
 }
 
 .status {
-  background-color: #FDECB2;
   padding: 5px 5px;
   margin: 10px 20px;
   max-width: 110px;
   border-radius: 10px;
+}
+
+.colored {
+  background-color: #FDECB2;
 }

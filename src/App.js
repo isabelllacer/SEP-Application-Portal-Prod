@@ -7,8 +7,11 @@ class Entry extends React.Component {
     const status = this.props.status ?
         ' status' :
         '';
+    const colored = this.props.colored ?
+        ' colored' :
+        '';
     return (
-        <div className={'entry' + status}>{this.props.value}</div>
+        <div className={'entry' + status + colored}>{this.props.value}</div>
     );
   }
 }
@@ -18,9 +21,22 @@ class Row extends React.Component {
     return (
       <div key={this.props.info.id} className='row'>
         {<Entry value={this.props.info.name}/>}
-        {<Entry status={true} value={this.props.info.status}/>}
+        {<Entry status={true} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
+      </div>
+    );
+  }
+}
+
+class Columns extends React.Component {
+  render() {
+    return (
+      <div className='row'>
+        {<Entry value={"Applicant"}/>}
+        {<Entry status={true} value={"Status"}/>}
+        {<Entry value={"Major"}/>}
+        {<Entry value={"Year"}/>}
       </div>
     );
   }
@@ -63,9 +79,10 @@ class App extends React.Component {
             </div>
         </header>
         <div className='table'>
-                {this.state.items.map((item) => {
-                  return <Row info={item}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
-                })}
+          {<Columns />}
+          {this.state.items.map((item) => {
+            return <Row info={item}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
+          })}
         </div>
       </div>
     );
