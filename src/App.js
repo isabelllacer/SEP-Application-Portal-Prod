@@ -13,15 +13,11 @@ class Entry extends React.Component {
         </div>
       );
     }
-    if (this.props.colored) {
-      return (
-        <div className='entry'>
-          <div className={'highlight'}>{this.props.value}</div>
-        </div>
-      );
-    }
+    const content = this.props.colored ?
+      <div className={'highlight'}>{this.props.value}</div> :
+      this.props.value;
     return (
-        <div className={'entry'}>{this.props.value}</div>
+        <div className={'entry'}>{content}</div>
     );
   }
 }
