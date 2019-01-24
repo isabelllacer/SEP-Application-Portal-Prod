@@ -34,6 +34,7 @@ header i {
 
 .row {
   width: 100%;
+  padding-left: 30px;
   display: flex;
   font-weight: 300;
   background-color: #fff;
@@ -50,10 +51,25 @@ header i {
 }
 
 .highlight {
-  background-color: #FDECB2;
   display: inline-block;
   border-radius: 10px;
   padding: 10px 20px;
+}
+
+.yellow {
+  background-color: #FDECB2;
+}
+
+.blue {
+  background-color: #E1EFFF;
+}
+
+.green {
+  background-color: #D6FCC9;
+}
+
+.red {
+  background-color: #FFC8C8;
 }
 
 .columns {
@@ -66,7 +82,7 @@ header i {
   flex-direction: row;
   margin: 0px 30px;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex: 1;
 }
 

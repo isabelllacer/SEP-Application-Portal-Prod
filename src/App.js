@@ -13,9 +13,29 @@ class Entry extends React.Component {
         </div>
       );
     }
-    const content = this.props.colored ?
-      <div className={'highlight'}>{this.props.value}</div> :
-      this.props.value;
+    let content;
+    if (this.props.colored) {
+      let color;
+      switch (this.props.value) {
+        case 'Pending':
+          color = 'yellow';
+          break;
+        case 'Bid':
+          color = 'green';
+          break;
+        case 'Next Round':
+          color = 'blue';
+          break;
+        case 'Cut':
+          color = 'red';
+          break;
+        default:
+          content = this.props.value;
+      }
+      content = <div className={'highlight ' + color}>{this.props.value}</div>
+    } else {
+      content = this.props.value;
+    }
     return (
         <div className={'entry'}>{content}</div>
     );

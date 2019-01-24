@@ -1,0 +1,40 @@
+{
+  "applicants" : {
+    "app1" : {
+      "major" : "EECS",
+      "name" : "Arnold Palmer",
+      "status" : "Pending",
+      "year" : "Freshman"
+    },
+    "app2" : {
+      "major" : "EECS",
+      "name" : "Beta Boi",
+      "status" : "Bid",
+      "year" : "Junior"
+    },
+    "app3" : {
+      "major" : "Poly Sci",
+      "name" : "Cat Fish",
+      "status" : "Next Round",
+      "year" : "Freshman"
+    },
+    "app4" : {
+      "major" : "Mech E.",
+      "name" : "Doofus Goof",
+      "status" : "Cut",
+      "year" : "Senior"
+    },
+    "app5" : {
+      "major" : "EECS",
+      "name" : "Elephant Five",
+      "status" : "Pending",
+      "year" : "Sophomore"
+    },
+    "app6" : {
+      "major" : "CS",
+      "name" : "Floppy Disk",
+      "status" : "Next Round",
+      "year" : "Junior"
+    }
+  }
+}
