@@ -1,6 +1,6 @@
 body {
   font-family: 'Open Sans', sans-serif;
-  background-color: #E5E5E5;
+  background-color: #F6F6F6;
 }
 
 header {
@@ -35,6 +35,7 @@ header i {
 .row {
   width: 100%;
   display: flex;
+  font-weight: 300;
   background-color: #fff;
   color: #000;
   margin-bottom: 5px;
@@ -42,7 +43,6 @@ header i {
 }
 
 .entry {
-  font-weight: 300;
   margin: 15px 30px;
   flex: 1;
 }
@@ -56,4 +56,9 @@ header i {
 
 .colored {
   background-color: #FDECB2;
+}
+
+.columns {
+  background-color: #EAEAEA;
+  font-weight: 900;
 }

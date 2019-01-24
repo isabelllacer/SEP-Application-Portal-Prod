@@ -4,6 +4,11 @@ import firebase from './firebase.js';
 
 class Entry extends React.Component {
   render() {
+    if (this.props.name) {
+      return (
+        <div className='entry'>{this.props.value}</div>
+      );
+    }
     const status = this.props.status ?
         ' status' :
         '';
@@ -20,7 +25,7 @@ class Row extends React.Component {
   render() {
     return (
       <div key={this.props.info.id} className='row'>
-        {<Entry value={this.props.info.name}/>}
+        {<Entry name={true} value={this.props.info.name}/>}
         {<Entry status={true} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
@@ -32,7 +37,7 @@ class Row extends React.Component {
 class Columns extends React.Component {
   render() {
     return (
-      <div className='row'>
+      <div className='row columns'>
         {<Entry value={"Applicant"}/>}
         {<Entry status={true} value={"Status"}/>}
         {<Entry value={"Major"}/>}
