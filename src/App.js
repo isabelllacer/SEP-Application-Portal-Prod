@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
 import firebase from './firebase.js';
+import face1 from './pictures/face1.jpg';
 
 class Entry extends React.Component {
   render() {
     if (this.props.name) {
       return (
-        <div className='entry'>{this.props.value}</div>
+        <div className='applicant'>
+          <div><img className='headshot' src={face1}/></div>
+          <div className='name'>{this.props.value}</div>
+        </div>
       );
     }
     const status = this.props.status ?

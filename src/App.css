@@ -40,6 +40,7 @@ header i {
   color: #000;
   margin-bottom: 5px;
   text-align: center;
+  max-height: 100px;
 }
 
 .entry {
@@ -61,4 +62,22 @@ header i {
 .columns {
   background-color: #EAEAEA;
   font-weight: 900;
+}
+
+.applicant {
+  display: flex;
+  flex-direction: row;
+  margin: 0px 30px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.headshot {
+  height: 100%;
+  max-height: 100px;
+  margin: 0px 20px;
+}
+
+.name {
 }
