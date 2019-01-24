@@ -39,6 +39,7 @@ header i {
   background-color: #fff;
   color: #000;
   margin-bottom: 5px;
+  align-items: center;
   text-align: center;
   max-height: 100px;
 }
@@ -48,15 +49,11 @@ header i {
   flex: 1;
 }
 
-.status {
-  padding: 5px 5px;
-  margin: 10px 20px;
-  max-width: 110px;
-  border-radius: 10px;
-}
-
-.colored {
+.highlight {
   background-color: #FDECB2;
+  display: inline-block;
+  border-radius: 10px;
+  padding: 10px 20px;
 }
 
 .columns {
@@ -75,9 +72,8 @@ header i {
 
 .headshot {
   height: 100%;
+  width: 100%;
   max-height: 100px;
+  max-width: 100px;
   margin: 0px 20px;
-}
-
-.name {
 }

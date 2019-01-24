@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import firebase from './firebase.js';
 import face1 from './pictures/face1.jpg';
@@ -9,18 +9,19 @@ class Entry extends React.Component {
       return (
         <div className='applicant'>
           <div><img className='headshot' src={face1}/></div>
-          <div className='name'>{this.props.value}</div>
+          <div>{this.props.value}</div>
         </div>
       );
     }
-    const status = this.props.status ?
-        ' status' :
-        '';
-    const colored = this.props.colored ?
-        ' colored' :
-        '';
+    if (this.props.colored) {
+      return (
+        <div className='entry'>
+          <div className={'highlight'}>{this.props.value}</div>
+        </div>
+      );
+    }
     return (
-        <div className={'entry' + status + colored}>{this.props.value}</div>
+        <div className={'entry'}>{this.props.value}</div>
     );
   }
 }
