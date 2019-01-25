@@ -2,13 +2,21 @@ import React from 'react';
 import './App.css';
 import firebase from './firebase.js';
 import face1 from './pictures/face1.jpg';
+import gray_star from './pictures/gray_star.png';
+import gray_eye from './pictures/gray_eye.png';
 
 class Entry extends React.Component {
   render() {
     if (this.props.name) {
       return (
         <div className='applicant'>
-          <div><img className='headshot' src={face1}/></div>
+          <div className='head_container'>
+            <div className="actions_container">
+              <img className='eye' src={gray_eye}/>
+              <img className='star' src={gray_star}/>
+            </div>
+            <img className='headshot' src={face1}/>
+          </div>
           <div>{this.props.value}</div>
         </div>
       );
