@@ -45,6 +45,10 @@ header i {
   max-height: 100px;
 }
 
+.starred {
+  background-color: #FFFCF4;
+}
+
 .entry {
   margin: 15px 30px;
   flex: 1;

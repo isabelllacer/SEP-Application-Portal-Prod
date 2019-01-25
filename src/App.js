@@ -3,6 +3,7 @@ import './App.css';
 import firebase from './firebase.js';
 import face1 from './pictures/face1.jpg';
 import gray_star from './pictures/gray_star.png';
+import yellow_star from './pictures/yellow_star.png';
 import gray_eye from './pictures/gray_eye.png';
 
 class Entry extends React.Component {
@@ -13,7 +14,7 @@ class Entry extends React.Component {
           <div className='head_container'>
             <div className="actions_container">
               <img className='eye' src={gray_eye}/>
-              <img className='star' src={gray_star}/>
+              <img className='star' onClick={() => this.props.onClick()} src={this.props.star ? yellow_star : gray_star}/>
             </div>
             <img className='headshot' src={face1}/>
           </div>
@@ -52,9 +53,10 @@ class Entry extends React.Component {
 
 class Row extends React.Component {
   render() {
+    const starred = this.props.info.star ? ' starred' : '';
     return (
-      <div key={this.props.info.id} className='row'>
-        {<Entry name={true} value={this.props.info.name}/>}
+      <div key={this.props.info.id} className={'row' + starred}>
+        {<Entry name={true} onClick={() => this.props.onClick()} star={this.props.info.star} hide={this.props.info.hide} value={this.props.info.name}/>}
         {<Entry status={true} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
@@ -95,12 +97,25 @@ class App extends React.Component {
           name: items[item].name,
           status: items[item].status,
           major: items[item].major,
-          year: items[item].year
+          year: items[item].year,
+          star: false,
+          hide: false,
         });
       }
       this.setState({
         items: newState
       });
+    });
+  }
+
+  //maybe keep list of starred items?
+  starClick(index) {
+    //put item on top
+    let newItems = this.state.items;
+    console.log('I was triggered during componentDidMount');
+    newItems[index].star = newItems[index].star ? false : true;
+    this.setState({
+      items: newItems
     });
   }
 
@@ -114,8 +129,8 @@ class App extends React.Component {
         </header>
         <div className='table'>
           {<Columns />}
-          {this.state.items.map((item) => {
-            return <Row info={item}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
+          {this.state.items.map((item, i) => {
+            return <Row info={item} onClick={() => this.starClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
           })}
         </div>
       </div>
