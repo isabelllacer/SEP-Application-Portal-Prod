@@ -1,5 +1,5 @@
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lato', sans-serif;
   background-color: #F6F6F6;
 }
 
@@ -78,7 +78,11 @@ header i {
 
 .columns {
   background-color: #EAEAEA;
-  font-weight: 900;
+  font-weight: bold;
+}
+
+.bolded {
+  font-weight: bolder;
 }
 
 .applicant {

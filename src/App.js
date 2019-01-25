@@ -46,8 +46,10 @@ class Entry extends React.Component {
       content = this.props.value;
     }
     const click = this.props.column ? () => this.props.onClick() : null;
+    console.log(this.props.sort === this.props.value.toLowerCase());
+    const bold = this.props.sort === this.props.value.toLowerCase() ? " bolded" : "";
     return (
-        <div onClick={click} className={'entry'}>{content}</div>
+        <div onClick={click} className={'entry' + bold}>{content}</div>
     );
   }
 }
@@ -70,10 +72,10 @@ class Columns extends React.Component {
   render() {
     return (
       <div className='row columns'>
-        {<Entry column={true} onClick={() => this.props.onClick("name")} value={"Applicant"}/>}
-        {<Entry column={true} onClick={() => this.props.onClick("status")} status={true} value={"Status"}/>}
-        {<Entry column={true} onClick={() => this.props.onClick("major")} value={"Major"}/>}
-        {<Entry column={true} onClick={() => this.props.onClick("year")} value={"Year"}/>}
+        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("name")} value={"Applicant"}/>}
+        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("status")} status={true} value={"Status"}/>}
+        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("major")} value={"Major"}/>}
+        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("year")} value={"Year"}/>}
       </div>
     );
   }
@@ -188,7 +190,7 @@ class App extends React.Component {
             </div>
         </header>
         <div className='table'>
-          {<Columns onClick={(v) => this.columnClick(v)}/>}
+          {<Columns onClick={(v) => this.columnClick(v)} sorter={this.state.sortBy}/>}
           {this.state.items.map((item, i) => {
             return <Row info={item} onClick={() => this.starClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
           })}
