@@ -126,8 +126,24 @@ class App extends React.Component {
     //put item on top
     let newItems = this.state.items.slice();
     newItems[index].star = newItems[index].star ? false : true;
+    const sorter = this.state.sortBy;
+    newItems.sort(function (a, b) {
+      if ((a.star === true) && (b.star !== true)) {
+        return -1;
+      }
+      if ((a.star !== true) && (b.star === true)) {
+        return 1;
+      }
+      var nameA=a[sorter].toLowerCase(), nameB=b[sorter].toLowerCase();
+      if (nameA < nameB)
+        return -1;
+      if (nameA > nameB)
+        return 1;
+      return 0;
+    });
     this.setState({
-      items: newItems
+      items: newItems,
+      sortBy: sorter
     });
   }
 
