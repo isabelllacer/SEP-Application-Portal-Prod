@@ -82,7 +82,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      items: []
+      items: [],
+      sortBy: "name"
     }
   }
 
@@ -103,9 +104,18 @@ class App extends React.Component {
           hide: false,
         });
       }
-
+      const sorter = this.state.sortBy;
+      newState.sort(function (a, b) {
+        var nameA=a[sorter].toLowerCase(), nameB=b[sorter].toLowerCase();
+        if (nameA < nameB)
+          return -1;
+        if (nameA > nameB)
+          return 1;
+        return 0;
+      });
       this.setState({
-        items: newState
+        items: newState,
+        sortBy: sorter
       });
     });
   }
