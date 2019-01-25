@@ -86,6 +86,7 @@ class App extends React.Component {
     }
   }
 
+  //TODO: Sort here
   componentDidMount() {
     const itemsRef = firebase.database().ref('applicants');
     itemsRef.on('value', (snapshot) => {
@@ -102,6 +103,7 @@ class App extends React.Component {
           hide: false,
         });
       }
+
       this.setState({
         items: newState
       });
@@ -109,10 +111,10 @@ class App extends React.Component {
   }
 
   //maybe keep list of starred items?
+  //TODO: Rethink state
   starClick(index) {
     //put item on top
-    let newItems = this.state.items;
-    console.log('I was triggered during componentDidMount');
+    let newItems = this.state.items.slice();
     newItems[index].star = newItems[index].star ? false : true;
     this.setState({
       items: newItems
