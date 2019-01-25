@@ -48,8 +48,9 @@ class Entry extends React.Component {
     const click = this.props.column ? () => this.props.onClick() : null;
     console.log(this.props.sort === this.props.value.toLowerCase());
     const bold = this.props.sort === this.props.value.toLowerCase() ? " bolded" : "";
+    const point = this.props.column ? " point" : "";
     return (
-        <div onClick={click} className={'entry' + bold}>{content}</div>
+        <div onClick={click} className={'entry' + bold + point}>{content}</div>
     );
   }
 }

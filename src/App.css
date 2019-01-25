@@ -134,3 +134,7 @@ header i {
 .star:hover {
   opacity: 0.6;
 }
+
+.point {
+  cursor: pointer;
+}
