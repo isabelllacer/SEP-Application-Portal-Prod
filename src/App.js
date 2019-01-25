@@ -45,8 +45,9 @@ class Entry extends React.Component {
     } else {
       content = this.props.value;
     }
+    const click = this.props.column ? () => this.props.onClick() : null;
     return (
-        <div className={'entry'}>{content}</div>
+        <div onClick={click} className={'entry'}>{content}</div>
     );
   }
 }
@@ -69,21 +70,24 @@ class Columns extends React.Component {
   render() {
     return (
       <div className='row columns'>
-        {<Entry value={"Applicant"}/>}
-        {<Entry status={true} value={"Status"}/>}
-        {<Entry value={"Major"}/>}
-        {<Entry value={"Year"}/>}
+        {<Entry column={true} onClick={() => this.props.onClick("name")} value={"Applicant"}/>}
+        {<Entry column={true} onClick={() => this.props.onClick("status")} status={true} value={"Status"}/>}
+        {<Entry column={true} onClick={() => this.props.onClick("major")} value={"Major"}/>}
+        {<Entry column={true} onClick={() => this.props.onClick("year")} value={"Year"}/>}
       </div>
     );
   }
 }
 
+//Pin applicant and status Columns
+//State includes list of additional columns
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       items: [],
-      sortBy: "name"
+      sortBy: "name",
+      columns: ["major", "year"]
     }
   }
 
@@ -105,7 +109,7 @@ class App extends React.Component {
         });
       }
       const sorter = this.state.sortBy;
-      newState.sort(function (a, b) {
+      newState.sort(function (a, b) { //TODO: Adapt this into flexible sort function
         var nameA=a[sorter].toLowerCase(), nameB=b[sorter].toLowerCase();
         if (nameA < nameB)
           return -1;
@@ -113,14 +117,15 @@ class App extends React.Component {
           return 1;
         return 0;
       });
+      const cols = this.state.columns.slice();
       this.setState({
         items: newState,
-        sortBy: sorter
+        sortBy: sorter,
+        columns: cols
       });
     });
   }
 
-  //maybe keep list of starred items?
   //TODO: Rethink state
   starClick(index) {
     //put item on top
@@ -141,9 +146,36 @@ class App extends React.Component {
         return 1;
       return 0;
     });
+    const cols = this.state.columns.slice();
     this.setState({
       items: newItems,
-      sortBy: sorter
+      sortBy: sorter,
+      columns: cols
+    });
+  }
+
+  columnClick(value) {
+    let newItems = this.state.items.slice();
+    const sorter = value;
+    newItems.sort(function (a, b) {
+      if ((a.star === true) && (b.star !== true)) {
+        return -1;
+      }
+      if ((a.star !== true) && (b.star === true)) {
+        return 1;
+      }
+      var nameA=a[sorter].toLowerCase(), nameB=b[sorter].toLowerCase();
+      if (nameA < nameB)
+        return -1;
+      if (nameA > nameB)
+        return 1;
+      return 0;
+    });
+    const cols = this.state.columns.slice();
+    this.setState({
+      items: newItems,
+      sortBy: sorter,
+      columns: cols
     });
   }
 
@@ -156,7 +188,7 @@ class App extends React.Component {
             </div>
         </header>
         <div className='table'>
-          {<Columns />}
+          {<Columns onClick={(v) => this.columnClick(v)}/>}
           {this.state.items.map((item, i) => {
             return <Row info={item} onClick={() => this.starClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
           })}
