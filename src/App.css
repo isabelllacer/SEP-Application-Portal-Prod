@@ -52,6 +52,7 @@ header i {
 .entry {
   margin: 15px 30px;
   flex: 1;
+  position: relative;
 }
 
 .highlight {
@@ -83,6 +84,13 @@ header i {
 
 .bolded {
   font-weight: bolder;
+}
+
+.arrow {
+  position: absolute;
+  height: 10px;
+  top: 5px;
+  right: 30%;
 }
 
 .applicant {

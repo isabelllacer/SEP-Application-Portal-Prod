@@ -5,6 +5,7 @@ import face1 from './pictures/face1.jpg';
 import gray_star from './pictures/gray_star.png';
 import yellow_star from './pictures/yellow_star.png';
 import gray_eye from './pictures/gray_eye.png';
+import arrow from './pictures/arrow.png';
 
 class Entry extends React.Component {
   render() {
@@ -46,8 +47,14 @@ class Entry extends React.Component {
       content = this.props.value;
     }
     const click = this.props.column ? () => this.props.onClick() : null;
-    console.log(this.props.sort === this.props.value.toLowerCase());
-    const bold = this.props.sort === this.props.value.toLowerCase() ? " bolded" : "";
+    let bold = "";
+    if (this.props.sort === this.props.value.toLowerCase()) {
+      bold = " bolded";
+      content = <div>
+                  <img className="arrow" src={arrow} />
+                  {this.props.value}
+                </div>;
+    }
     const point = this.props.column ? " point" : "";
     return (
         <div onClick={click} className={'entry' + bold + point}>{content}</div>
