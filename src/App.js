@@ -194,7 +194,12 @@ function appSort(sorter){
           return 1;
         return 0;
         break;
-      case 'Bid':
+      case 'year':
+        const yearMap = {freshman: 0, sophomore: 1, junior: 2, senior: 4};
+        if (yearMap[nameA] < yearMap[nameB])
+          return -1;
+        if (yearMap[nameA] > yearMap[nameB])
+          return 1;
         return 0;
         break;
       default:
