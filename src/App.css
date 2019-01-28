@@ -86,11 +86,16 @@ header i {
   font-weight: bolder;
 }
 
+.relContainer {
+  display: inline;
+  position: relative;
+}
+
 .arrow {
   position: absolute;
   height: 10px;
-  top: 5px;
-  right: 30%;
+  top: 6px;
+  right: -25px;
 }
 
 .applicant {

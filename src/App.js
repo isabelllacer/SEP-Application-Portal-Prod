@@ -9,7 +9,7 @@ import arrow from './pictures/arrow.png';
 
 class Entry extends React.Component {
   render() {
-    if (this.props.name) {
+    if (this.props.applicant) {
       return (
         <div className='applicant'>
           <div className='head_container'>
@@ -50,7 +50,7 @@ class Entry extends React.Component {
     let bold = "";
     if (this.props.sort === this.props.value.toLowerCase()) {
       bold = " bolded";
-      content = <div>
+      content = <div className="relContainer">
                   <img className="arrow" src={arrow} />
                   {this.props.value}
                 </div>;
@@ -67,7 +67,7 @@ class Row extends React.Component {
     const starred = this.props.info.star ? ' starred' : '';
     return (
       <div key={this.props.info.id} className={'row' + starred}>
-        {<Entry name={true} onClick={() => this.props.onClick()} star={this.props.info.star} hide={this.props.info.hide} value={this.props.info.name}/>}
+        {<Entry applicant={true} onClick={() => this.props.onClick()} star={this.props.info.star} hide={this.props.info.hide} value={this.props.info.applicant}/>}
         {<Entry status={true} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
@@ -80,7 +80,7 @@ class Columns extends React.Component {
   render() {
     return (
       <div className='row columns'>
-        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("name")} value={"Applicant"}/>}
+        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("applicant")} value={"Applicant"}/>}
         {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("status")} status={true} value={"Status"}/>}
         {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("major")} value={"Major"}/>}
         {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("year")} value={"Year"}/>}
@@ -96,7 +96,7 @@ class App extends React.Component {
     super();
     this.state = {
       items: [],
-      sortBy: "name",
+      sortBy: "applicant",
       columns: ["major", "year"]
     }
   }
@@ -110,7 +110,7 @@ class App extends React.Component {
       for (let item in items) {
         newState.push({
           id: item,
-          name: items[item].name,
+          applicant: items[item].applicant,
           status: items[item].status,
           major: items[item].major,
           year: items[item].year,
