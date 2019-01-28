@@ -119,14 +119,7 @@ class App extends React.Component {
         });
       }
       const sorter = this.state.sortBy;
-      newState.sort(function (a, b) { //TODO: Adapt this into flexible sort function
-        var nameA=a[sorter].toLowerCase(), nameB=b[sorter].toLowerCase();
-        if (nameA < nameB)
-          return -1;
-        if (nameA > nameB)
-          return 1;
-        return 0;
-      });
+      newState.sort(appSort(sorter));
       const cols = this.state.columns.slice();
       this.setState({
         items: newState,
@@ -142,20 +135,7 @@ class App extends React.Component {
     let newItems = this.state.items.slice();
     newItems[index].star = newItems[index].star ? false : true;
     const sorter = this.state.sortBy;
-    newItems.sort(function (a, b) {
-      if ((a.star === true) && (b.star !== true)) {
-        return -1;
-      }
-      if ((a.star !== true) && (b.star === true)) {
-        return 1;
-      }
-      var nameA=a[sorter].toLowerCase(), nameB=b[sorter].toLowerCase();
-      if (nameA < nameB)
-        return -1;
-      if (nameA > nameB)
-        return 1;
-      return 0;
-    });
+    newItems.sort(appSort(sorter));
     const cols = this.state.columns.slice();
     this.setState({
       items: newItems,
@@ -166,25 +146,11 @@ class App extends React.Component {
 
   columnClick(value) {
     let newItems = this.state.items.slice();
-    const sorter = value;
-    newItems.sort(function (a, b) {
-      if ((a.star === true) && (b.star !== true)) {
-        return -1;
-      }
-      if ((a.star !== true) && (b.star === true)) {
-        return 1;
-      }
-      var nameA=a[sorter].toLowerCase(), nameB=b[sorter].toLowerCase();
-      if (nameA < nameB)
-        return -1;
-      if (nameA > nameB)
-        return 1;
-      return 0;
-    });
+    newItems.sort(appSort(value));
     const cols = this.state.columns.slice();
     this.setState({
       items: newItems,
-      sortBy: sorter,
+      sortBy: value,
       columns: cols
     });
   }
@@ -205,6 +171,39 @@ class App extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+function appSort(sorter){
+  return function (a, b) {
+    if ((a.star === true) && (b.star !== true)) {
+      return -1;
+    }
+    if ((a.star !== true) && (b.star === true)) {
+      return 1;
+    }
+    var nameA=a[sorter].toLowerCase(), nameB=b[sorter].toLowerCase();
+    switch (sorter.toLowerCase()) {
+      case 'status':
+        const statMap = {bid: 0, nextround: 1, pending: 2, cut: 4};
+        nameA = nameA.replace(/\s+/g, '');
+        nameB = nameB.replace(/\s+/g, '');
+        if (statMap[nameA] < statMap[nameB])
+          return -1;
+        if (statMap[nameA] > statMap[nameB])
+          return 1;
+        return 0;
+        break;
+      case 'Bid':
+        return 0;
+        break;
+      default:
+        if (nameA < nameB)
+          return -1;
+        if (nameA > nameB)
+          return 1;
+        return 0;
+    }
   }
 }
 
