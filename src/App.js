@@ -187,6 +187,9 @@ class App extends React.Component {
           hide: false,
         });
       }
+
+      var storage = firebase.storage();
+
       const sorter = this.state.sortBy;
       const hid = this.state.hidden;
       const coll = this.state.collapse;

@@ -4,7 +4,7 @@ const config = {
     authDomain: "fun-food-friends-e2658.firebaseapp.com",
     databaseURL: "https://fun-food-friends-e2658.firebaseio.com",
     projectId: "fun-food-friends-e2658",
-    storageBucket: "fun-food-friends-e2658.appspot.com",
+    storageBucket: "gs://fun-food-friends-e2658.appspot.com/",
     messagingSenderId: "788527700096"
   };
   firebase.initializeApp(config);
