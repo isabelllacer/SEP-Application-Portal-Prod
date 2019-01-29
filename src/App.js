@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import firebase from './firebase.js';
 import face1 from './pictures/face1.jpg';
+import face2 from './pictures/face2.jpg';
+import face3 from './pictures/face3.jpg';
 import gray_star from './pictures/gray_star.png';
 import yellow_star from './pictures/yellow_star.png';
 import gray_eye from './pictures/gray_eye.png';
@@ -21,7 +23,7 @@ class Entry extends React.Component {
               <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
               <img className='star' onClick={() => this.props.onClick()} src={this.props.star ? yellow_star : gray_star}/>
             </div>
-            <img className='headshot' src={face1}/>
+            <img className='headshot' src={face2}/>
           </div>
           <div>{this.props.value}</div>
         </div>
