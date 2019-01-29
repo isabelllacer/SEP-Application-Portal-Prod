@@ -125,10 +125,11 @@ class Hider extends React.Component {
   }
 
   render() {
+
     return (
-      <div onClick={this.handleClick} className={'row hider'}>
+      <div onClick={this.handleClick} className={'row hider' + (this.props.collapse ? '' : ' active')}>
         <div className={'showContainer'}>
-          Show
+          {this.props.collapse ? "Show" : "Collapse"}
         </div>
         <div className={'hideContainer'}>
           Hidden ({this.props.count})
@@ -310,7 +311,7 @@ class App extends React.Component {
           {this.state.items.map((item, i) => {
             return <Row info={item} onClick={() => this.starClick(i)} onEyeClick={() => this.eyeClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
           })}
-          <Hider count={this.state.hidden.length} onClick={() => this.hiddenClick()}/>
+          <Hider count={this.state.hidden.length} onClick={() => this.hiddenClick()} collapse={this.state.collapse}/>
           {this.state.hidden.map((item, i) => {
             return <HiddenRow info={item} collapse={this.state.collapse} onEyeClick={() => this.unhideClick(i)}/>;
           })}

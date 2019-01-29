@@ -128,11 +128,20 @@ header i {
   opacity: 1;
 }
 
-.hider:hover .hideContainer,  .hider:hover .showContainer{
+.hider:hover .hideContainer,  .hider:hover .showContainer {
   color: #000;
 }
 
 .hider:hover .hideLine {
+  background-color: #000;
+}
+
+.active, .active .hideContainer, .active  .showContainer {
+  opacity: 1;
+  color: #000;
+}
+
+.active .hideLine {
   background-color: #000;
 }
 
