@@ -19,16 +19,20 @@ class Entry extends React.Component {
   render() {
     if (this.props.applicant) {
       return (
-        <div className='applicant'>
-          <div className='head_container'>
-            <div className="actions_container">
-              <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
-              <img className='star' onClick={() => this.props.onClick()} src={this.props.star ? yellow_star : gray_star}/>
+          <div className='applicant'>
+            <div className='head_container'>
+              <div className="actions_container">
+                <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
+                <img className='star' onClick={() => this.props.onClick()} src={this.props.star ? yellow_star : gray_star}/>
+              </div>
+              <Link to="/view">
+              <img className='headshot' src={face2}/>
+              </Link>
             </div>
-            <img className='headshot' src={face2}/>
+            <Link to="/view">
+            <div className="appName">{this.props.value}</div>
+            </Link>
           </div>
-          <div>{this.props.value}</div>
-        </div>
       );
     }
     let content;
@@ -307,14 +311,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <HashRouter>
         <div className='app'>
-          <header>
-              <div className='wrapper'>
-                <h1><Link to="/view">SEP Application Portal</Link></h1>
-              </div>
-          </header>
-          <Route path="/view" component={View}/>
           <div className='table'>
             {<Columns onClick={(v) => this.columnClick(v)} sorter={this.state.sortBy}/>}
             {this.state.items.map((item, i) => {
@@ -326,7 +323,6 @@ class App extends React.Component {
             })}
           </div>
         </div>
-      </HashRouter>
     );
   }
 }
