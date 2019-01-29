@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './View.css';
 import firebase from './firebase.js';
 import face1 from './pictures/face1.jpg';
 import face2 from './pictures/face2.jpg';
@@ -8,8 +8,7 @@ import gray_star from './pictures/gray_star.png';
 import yellow_star from './pictures/yellow_star.png';
 import gray_eye from './pictures/gray_eye.png';
 import arrow from './pictures/arrow.png';
-import { Link, HashRouter, Route } from 'react-router-dom';
-import View from "./View";
+import { Link } from 'react-router-dom';
 
 class Entry extends React.Component {
   handleEyeClick = () => {
@@ -160,7 +159,7 @@ class Columns extends React.Component {
 
 //Pin applicant and status Columns
 //State includes list of additional columns
-class App extends React.Component {
+class View extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -307,26 +306,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <HashRouter>
-        <div className='app'>
-          <header>
-              <div className='wrapper'>
-                <h1><Link to="/view">SEP Application Portal</Link></h1>
-              </div>
-          </header>
-          <Route path="/view" component={View}/>
-          <div className='table'>
-            {<Columns onClick={(v) => this.columnClick(v)} sorter={this.state.sortBy}/>}
-            {this.state.items.map((item, i) => {
-              return <Row info={item} onClick={() => this.starClick(i)} onEyeClick={() => this.eyeClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
-            })}
-            <Hider count={this.state.hidden.length} onClick={() => this.hiddenClick()} collapse={this.state.collapse}/>
-            {this.state.hidden.map((item, i) => {
-              return <HiddenRow info={item} collapse={this.state.collapse} onEyeClick={() => this.unhideClick(i)}/>;
-            })}
-          </div>
-        </div>
-      </HashRouter>
+      <div>
+        ViewViewViewViewViewViewView
+      </div>
     );
   }
 }
@@ -367,4 +349,4 @@ function appSort(sorter){
   }
 }
 
-export default App;
+export default View;
