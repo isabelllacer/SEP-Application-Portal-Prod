@@ -79,6 +79,7 @@ header i {
 
 .columns {
   background-color: #EAEAEA;
+  font-size: 18px;
   font-weight: bold;
 }
 
@@ -94,33 +95,52 @@ header i {
 .arrow {
   position: absolute;
   height: 10px;
-  top: 6px;
+  top: 7px;
   right: -25px;
 }
 
 .hider {
   color: #C4C4C4;
-  cursor: pointer;
   height: 100px;
+  cursor: pointer;
 }
 
 .hideContainer {
-  flex: 1;
-}
-
-.showContainer {
-  flex: 3;
+  margin: auto 60px;
+  font-size: 20px;
 }
 
 .hideLine {
-  flex: 8;
   background-color: #C4C4C4;
+  position: relative;
+  top: 1px;
   height: 3px;
-  width: 50px;
-  margin-right: 75px;
+  width: 72%;
+  margin-right: 35px;
 }
 
-.hider:hover {
+.showContainer {
+  text-decoration: underline;
+}
+
+.showContainer:hover {
+  color: #000;
+}
+
+.hider:hover .hideContainer {
+  color: #000;
+}
+
+.hider:hover .hideLine {
+  background-color: #000;
+}
+
+.showContainer:hover + .hideContainer {
+  color: #C4C4C4;
+}
+
+.showContainer:hover ~ .hideLine {
+  background-color: #C4C4C4;
 }
 
 .applicant {

@@ -78,13 +78,14 @@ class Row extends React.Component {
 
 class Hider extends React.Component {
   render() {
+    const count = 0;
     return (
       <div className={'row hider'}>
         <div className={'showContainer'}>
           Show
         </div>
         <div className={'hideContainer'}>
-          Hidden
+          Hidden ({count})
         </div>
         <div className={'hideLine'}>
         </div>
