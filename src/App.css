@@ -103,6 +103,7 @@ header i {
   color: #C4C4C4;
   height: 100px;
   cursor: pointer;
+  opacity: 0.8;
 }
 
 .hideContainer {
@@ -123,24 +124,16 @@ header i {
   text-decoration: underline;
 }
 
-.showContainer:hover {
-  color: #000;
+.hider:hover {
+  opacity: 1;
 }
 
-.hider:hover .hideContainer {
+.hider:hover .hideContainer,  .hider:hover .showContainer{
   color: #000;
 }
 
 .hider:hover .hideLine {
   background-color: #000;
-}
-
-.showContainer:hover + .hideContainer {
-  color: #C4C4C4;
-}
-
-.showContainer:hover ~ .hideLine {
-  background-color: #C4C4C4;
 }
 
 .applicant {

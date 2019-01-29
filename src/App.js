@@ -8,13 +8,17 @@ import gray_eye from './pictures/gray_eye.png';
 import arrow from './pictures/arrow.png';
 
 class Entry extends React.Component {
+  handleEyeClick = () => {
+    this.props.onEyeClick();
+  }
+
   render() {
     if (this.props.applicant) {
       return (
         <div className='applicant'>
           <div className='head_container'>
             <div className="actions_container">
-              <img className='eye' src={gray_eye}/>
+              <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
               <img className='star' onClick={() => this.props.onClick()} src={this.props.star ? yellow_star : gray_star}/>
             </div>
             <img className='headshot' src={face1}/>
@@ -62,12 +66,51 @@ class Entry extends React.Component {
   }
 }
 
+//TODO: optimize applicant entries
+class HiddenApplicant extends React.Component {
+  handleEyeClick = () => {
+    this.props.onEyeClick();
+  }
+
+  render() {
+    return (
+      <div className='applicant'>
+        <div className='head_container'>
+          <div className="actions_container">
+            <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
+          </div>
+          <img className='headshot' src={face1}/>
+        </div>
+        <div>{this.props.value}</div>
+      </div>
+    );
+  }
+}
+
+class HiddenRow extends React.Component {
+  render() {
+    if (this.props.collapse) {
+      return (
+        <div ></div>
+      );
+    }
+    return (
+      <div key={this.props.info.id} className={'row'}>
+        {<HiddenApplicant onEyeClick={this.props.onEyeClick} value={this.props.info.applicant}/>}
+        {<Entry status={true} colored={true} value={this.props.info.status}/>}
+        {<Entry value={this.props.info.major}/>}
+        {<Entry value={this.props.info.year}/>}
+      </div>
+    );
+  }
+}
+
 class Row extends React.Component {
   render() {
     const starred = this.props.info.star ? ' starred' : '';
     return (
       <div key={this.props.info.id} className={'row' + starred}>
-        {<Entry applicant={true} onClick={() => this.props.onClick()} star={this.props.info.star} hide={this.props.info.hide} value={this.props.info.applicant}/>}
+        {<Entry applicant={true} onClick={() => this.props.onClick()} onEyeClick={this.props.onEyeClick} star={this.props.info.star} value={this.props.info.applicant}/>}
         {<Entry status={true} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
@@ -77,15 +120,18 @@ class Row extends React.Component {
 }
 
 class Hider extends React.Component {
+  handleClick = () => {
+    this.props.onClick();
+  }
+
   render() {
-    const count = 0;
     return (
-      <div className={'row hider'}>
+      <div onClick={this.handleClick} className={'row hider'}>
         <div className={'showContainer'}>
           Show
         </div>
         <div className={'hideContainer'}>
-          Hidden ({count})
+          Hidden ({this.props.count})
         </div>
         <div className={'hideLine'}>
         </div>
@@ -115,7 +161,9 @@ class App extends React.Component {
     this.state = {
       items: [],
       sortBy: "applicant",
-      columns: ["major", "year"]
+      columns: ["major", "year"],
+      hidden: [],
+      collapse: true,
     }
   }
 
@@ -137,28 +185,100 @@ class App extends React.Component {
         });
       }
       const sorter = this.state.sortBy;
+      const hid = this.state.hidden;
+      const coll = this.state.collapse;
       newState.sort(appSort(sorter));
       const cols = this.state.columns.slice();
       this.setState({
         items: newState,
         sortBy: sorter,
-        columns: cols
+        columns: cols,
+        hidden: hid,
+        collapse: coll
       });
     });
   }
 
-  //TODO: Rethink state
-  starClick(index) {
-    //put item on top
+  //both show and hide from click on bar
+  //separate: when hider bar clicked, render these items (display of star is none)
+  hiddenClick(index) {
     let newItems = this.state.items.slice();
-    newItems[index].star = newItems[index].star ? false : true;
+    let newHides = this.state.hidden.slice();
     const sorter = this.state.sortBy;
-    newItems.sort(appSort(sorter));
+    const coll = !this.state.collapse;
     const cols = this.state.columns.slice();
     this.setState({
       items: newItems,
       sortBy: sorter,
-      columns: cols
+      columns: cols,
+      hidden: newHides,
+      collapse: coll
+    });
+  }
+
+  unhideClick(index) {
+    let newItems = this.state.items.slice();
+    let newHides = this.state.hidden.slice();
+    let item = newHides[index];
+
+    newItems.push(item);
+    newHides.splice(index, 1);
+    item.hide = false; //TODO: This prop necessary?
+
+    const sorter = this.state.sortBy;
+    const sortFunc = appSort(sorter);
+    newItems.sort(sortFunc);
+    newHides.sort(sortFunc)
+    const cols = this.state.columns.slice();
+    const coll = this.state.collapse;
+    this.setState({
+      items: newItems,
+      sortBy: sorter,
+      columns: cols,
+      hidden: newHides,
+      collapse: coll,
+    });
+  }
+
+  eyeClick(index) {
+    let newItems = this.state.items.slice();
+    let newHides = this.state.hidden.slice();
+    let item = newItems[index];
+
+    newHides.push(item);
+    newItems.splice(index, 1);
+    item.star = false;
+    item.hide = true;
+
+    const sorter = this.state.sortBy;
+    const sortFunc = appSort(sorter);
+    newItems.sort(sortFunc);
+    newHides.sort(sortFunc)
+    const cols = this.state.columns.slice();
+    const coll = this.state.collapse;
+    this.setState({
+      items: newItems,
+      sortBy: sorter,
+      columns: cols,
+      hidden: newHides,
+      collapse: coll,
+    });
+  }
+
+  starClick(index) {
+    let newItems = this.state.items.slice();
+    newItems[index].star = newItems[index].star ? false : true;
+    const sorter = this.state.sortBy;
+    const coll = this.state.collapse;
+    newItems.sort(appSort(sorter));
+    const cols = this.state.columns.slice();
+    const hid = this.state.hidden;
+    this.setState({
+      items: newItems,
+      sortBy: sorter,
+      columns: cols,
+      hidden: hid,
+      collapse: coll
     });
   }
 
@@ -166,10 +286,14 @@ class App extends React.Component {
     let newItems = this.state.items.slice();
     newItems.sort(appSort(value));
     const cols = this.state.columns.slice();
+    const hid = this.state.hidden;
+    const coll = this.state.collapse;
     this.setState({
       items: newItems,
       sortBy: value,
-      columns: cols
+      columns: cols,
+      hidden: hid,
+      collapse: coll
     });
   }
 
@@ -184,9 +308,12 @@ class App extends React.Component {
         <div className='table'>
           {<Columns onClick={(v) => this.columnClick(v)} sorter={this.state.sortBy}/>}
           {this.state.items.map((item, i) => {
-            return <Row info={item} onClick={() => this.starClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
+            return <Row info={item} onClick={() => this.starClick(i)} onEyeClick={() => this.eyeClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
           })}
-          <Hider />
+          <Hider count={this.state.hidden.length} onClick={() => this.hiddenClick()}/>
+          {this.state.hidden.map((item, i) => {
+            return <HiddenRow info={item} collapse={this.state.collapse} onEyeClick={() => this.unhideClick(i)}/>;
+          })}
         </div>
       </div>
     );
