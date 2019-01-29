@@ -8,6 +8,7 @@ import gray_star from './pictures/gray_star.png';
 import yellow_star from './pictures/yellow_star.png';
 import gray_eye from './pictures/gray_eye.png';
 import arrow from './pictures/arrow.png';
+import { Link } from 'react-router';
 
 class Entry extends React.Component {
   handleEyeClick = () => {
