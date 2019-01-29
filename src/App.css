@@ -98,6 +98,31 @@ header i {
   right: -25px;
 }
 
+.hider {
+  color: #C4C4C4;
+  cursor: pointer;
+  height: 100px;
+}
+
+.hideContainer {
+  flex: 1;
+}
+
+.showContainer {
+  flex: 3;
+}
+
+.hideLine {
+  flex: 8;
+  background-color: #C4C4C4;
+  height: 3px;
+  width: 50px;
+  margin-right: 75px;
+}
+
+.hider:hover {
+}
+
 .applicant {
   display: flex;
   flex-direction: row;

@@ -76,6 +76,23 @@ class Row extends React.Component {
   }
 }
 
+class Hider extends React.Component {
+  render() {
+    return (
+      <div className={'row hider'}>
+        <div className={'showContainer'}>
+          Show
+        </div>
+        <div className={'hideContainer'}>
+          Hidden
+        </div>
+        <div className={'hideLine'}>
+        </div>
+      </div>
+    );
+  }
+}
+
 class Columns extends React.Component {
   render() {
     return (
@@ -168,6 +185,7 @@ class App extends React.Component {
           {this.state.items.map((item, i) => {
             return <Row info={item} onClick={() => this.starClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
           })}
+          <Hider />
         </div>
       </div>
     );
@@ -193,7 +211,6 @@ function appSort(sorter){
         if (statMap[nameA] > statMap[nameB])
           return 1;
         return 0;
-        break;
       case 'year':
         const yearMap = {freshman: 0, sophomore: 1, junior: 2, senior: 4};
         if (yearMap[nameA] < yearMap[nameB])
@@ -201,7 +218,6 @@ function appSort(sorter){
         if (yearMap[nameA] > yearMap[nameB])
           return 1;
         return 0;
-        break;
       default:
         if (nameA < nameB)
           return -1;
