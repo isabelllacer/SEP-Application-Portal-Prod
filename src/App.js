@@ -25,12 +25,22 @@ class Entry extends React.Component {
                 <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
                 <img className='star' onClick={() => this.props.onClick()} src={this.props.star ? yellow_star : gray_star}/>
               </div>
-              <Link to="/view">
-              <img className='headshot' src={face2}/>
+              <Link to={{
+                pathname: `/view/${this.props.id}`,
+                state: {
+                  id: this.props.id
+                }
+              }}>
+                <img className='headshot' src={face2}/>
               </Link>
             </div>
-            <Link to="/view">
-            <div className="appName">{this.props.value}</div>
+            <Link to={{
+              pathname: `/view/${this.props.id}`,
+              state: {
+                id: this.props.id
+              }
+            }}>
+              <div className="appName">{this.props.value}</div>
             </Link>
           </div>
       );
@@ -118,7 +128,7 @@ class Row extends React.Component {
     const starred = this.props.info.star ? ' starred' : '';
     return (
       <div key={this.props.info.id} className={'row' + starred}>
-        {<Entry applicant={true} onClick={() => this.props.onClick()} onEyeClick={this.props.onEyeClick} star={this.props.info.star} value={this.props.info.applicant}/>}
+        {<Entry applicant={true} id={this.props.info.id} onClick={() => this.props.onClick()} onEyeClick={this.props.onEyeClick} star={this.props.info.star} value={this.props.info.applicant}/>}
         {<Entry status={true} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
@@ -176,7 +186,9 @@ class App extends React.Component {
     }
   }
 
-  //TODO: Sort here
+  //TODO: make id the firebase key, pass key to application view
+  //OR retrieve all info here and pass entire item to view. maybe bad bc wont
+  //want full list of items in the sidebar in view
   componentDidMount() {
     const itemsRef = firebase.database().ref('applicants');
     itemsRef.on('value', (snapshot) => {
