@@ -53,7 +53,53 @@ class View extends React.Component {
   render() {
     return (
       <div>
-        {this.state.appInfo.applicant}
+        <div className="leftCol">
+          <div className="name">
+            {this.state.appInfo.applicant}
+          </div>
+          <div className="shot">
+            <img className='headPic' src={face2}/>
+          </div>
+          <div className="status">
+            {this.state.appInfo.applicant}
+          </div>
+          <div className="year">
+            {this.state.appInfo.applicant}
+          </div>
+          <div className="major">
+            {this.state.appInfo.applicant}
+          </div>
+          <div className="gpa">
+            {this.state.appInfo.applicant}
+          </div>
+          <div className="resume">
+            {this.state.appInfo.applicant}
+          </div>
+          <div className="email">
+            {this.state.appInfo.applicant}
+          </div>
+          <div className="phone">
+            {this.state.appInfo.applicant}
+          </div>
+        </div>
+        <div className="rightCol">
+          <div className="field">
+            <div className="head">
+              Notes
+            </div>
+            <div className="body">
+              Tyler: They are too old
+            </div>
+          </div>
+          <div className="field">
+            <div className="head">
+              Notes
+            </div>
+            <div className="body">
+              Tyler: They are too old
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

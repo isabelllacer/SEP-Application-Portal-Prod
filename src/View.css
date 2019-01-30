@@ -2,3 +2,32 @@ body {
   font-family: 'Lato', sans-serif;
   background-color: #F6F6F6;
 }
+
+.leftCol {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 400px;
+  width: 30%;
+  align-items: flex-start;
+}
+
+.rightCol {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 700px;
+  width: 60%;
+}
+
+.name {
+  font-weight: 900;
+  font-size: 30px;
+}
+
+.shot {
+  width: 70%;
+  margin: 80px 0px;
+}
+
+.headPic {
+  width: 100%;
+}
