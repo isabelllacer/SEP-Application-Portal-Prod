@@ -6,23 +6,38 @@ import face2 from './pictures/face2.jpg';
 import face3 from './pictures/face3.jpg';
 import { Link } from 'react-router-dom';
 
+class Detail extends React.Component {
+  render() {
+    return (
+      <div className="detail">
+        <span className="bolded"> {this.props.category.charAt(0).toUpperCase() + this.props.category.slice(1)}: </span>
+        {this.props.value}
+      </div>
+    );
+  }
+}
 
-//Pass in id of target
 class View extends React.Component {
   constructor() {
     super();
     this.state = {
       appId: null,
+      status: "",
       appInfo: {
         applicant: "",
         major: "",
         year: "",
-        status: ""
+        gpa: "",
+        resume: "",
+        email: "",
+        phone: ""
       },
+      qs: [],
       appList: []
     }
   }
 
+  //will need to parse out left column info and right column info into state
   componentDidMount() {
     var app = {};
     let newList = [];
@@ -42,15 +57,54 @@ class View extends React.Component {
     appRef.on('value', (snapshot) => {
       app = snapshot.val();
 
+      const stat = app["status"];
+      delete app.status;
+      app["gpa"] = "4.0";
+      app["resume"] = "";
+      app["email"] = "apalmer@berkeley.edu";
+      app["phone"] = "4085504766";
+
+      let newQs = [];
+      newQs.push({
+        title: "Applicantion Questions",
+        subs: [{subtitle: "List your other time commitments for the semester.",
+        content: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa."`
+        },
+        {subtitle: "Tell us about your interests.",
+        content: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa. Lorem ipsum dolor sit amet, consectetur
+          adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa."`
+        },
+        {subtitle: `"Why do you want to be in Sigma Eta Pi? How will you
+          contribute to the organization? (250 words or less)"`,
+        content: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa. Fusce nec nunc ante. Nam feugiat elit
+          justo, ac eleifend urna dapibus vel. Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit. Mauris vehicula, erat ut mattis volutpa."`
+      }]});
+
       this.setState({
         appId: this.props.match.params.id,
+        status: stat,
         appInfo: app,
+        qs: newQs,
         appList: newList
       });
     });
   }
 
   render() {
+    console.log(Object.keys(this.state.appInfo));
     return (
       <div>
         <div className="leftCol">
@@ -60,45 +114,14 @@ class View extends React.Component {
           <div className="shot">
             <img className='headPic' src={face2}/>
           </div>
-          <div className="status">
-            {this.state.appInfo.applicant}
-          </div>
-          <div className="year">
-            {this.state.appInfo.applicant}
-          </div>
-          <div className="major">
-            {this.state.appInfo.applicant}
-          </div>
-          <div className="gpa">
-            {this.state.appInfo.applicant}
-          </div>
-          <div className="resume">
-            {this.state.appInfo.applicant}
-          </div>
-          <div className="email">
-            {this.state.appInfo.applicant}
-          </div>
-          <div className="phone">
-            {this.state.appInfo.applicant}
-          </div>
+          {Object.keys(this.state.appInfo).map((field) => {
+            return <Detail category={field} value={this.state.appInfo[field]}/>;
+          })}
         </div>
         <div className="rightCol">
-          <div className="field">
-            <div className="head">
-              Notes
-            </div>
-            <div className="body">
-              Tyler: They are too old
-            </div>
-          </div>
-          <div className="field">
-            <div className="head">
-              Notes
-            </div>
-            <div className="body">
-              Tyler: They are too old
-            </div>
-          </div>
+        {this.state.qs.map((question) => {
+          return <div>{question.title}</div>;
+        })}
         </div>
       </div>
     );

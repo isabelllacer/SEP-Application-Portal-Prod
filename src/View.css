@@ -7,7 +7,8 @@ body {
   display: inline-flex;
   flex-direction: column;
   min-width: 400px;
-  width: 30%;
+  width: 25%;
+  margin: 40px 6%;
   align-items: flex-start;
 }
 
@@ -24,10 +25,18 @@ body {
 }
 
 .shot {
-  width: 70%;
-  margin: 80px 0px;
+  width: 100%;
+  margin: 40px 0px;
 }
 
 .headPic {
   width: 100%;
+}
+
+.detail {
+  margin: 2px 0px;
+}
+
+.bolded {
+  font-weight: bold;
 }
