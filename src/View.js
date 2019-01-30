@@ -13,19 +13,19 @@ class View extends React.Component {
     super();
     this.state = {
       appId: null,
-      appInfo: {},
+      appInfo: {
+        applicant: "",
+        major: "",
+        year: "",
+        status: ""
+      },
       appList: []
     }
   }
 
   componentDidMount() {
-    let app;
+    var app = {};
     let newList = [];
-
-    const appRef = firebase.database().ref('applicants/'+this.props.match.params.id);
-    appRef.on('value', (snapshot) => {
-      app = snapshot.val();
-    });
 
     const itemsRef = firebase.database().ref('applicants');
     itemsRef.once('value', (snapshot) => {
@@ -38,17 +38,22 @@ class View extends React.Component {
       }
     });
 
-    this.setState({
-      appId: this.props.match.params.id,
-      appInfo: app,
-      appList: newList
+    const appRef = firebase.database().ref('applicants/'+this.props.match.params.id);
+    appRef.on('value', (snapshot) => {
+      app = snapshot.val();
+
+      this.setState({
+        appId: this.props.match.params.id,
+        appInfo: app,
+        appList: newList
+      });
     });
   }
 
   render() {
     return (
       <div>
-        {this.state.appId}
+        {this.state.appInfo.applicant}
       </div>
     );
   }
