@@ -16,7 +16,8 @@ body {
   display: inline-flex;
   flex-direction: column;
   min-width: 700px;
-  width: 60%;
+  margin-top: 40px;
+  width: 58%;
 }
 
 .name {
@@ -43,10 +44,29 @@ body {
 
 .title {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
+  display: flex;
   margin: 10px auto;
   padding: 15px 0px;
-  padding-left: 60px;
-  width: 100%;
+  padding-right: 0px;
+  width: calc(100%);
   background-color: #E0E0E0;
+  align-items: center;
+}
+
+.score {
+  margin: auto 20px;
+  border-radius: 10px;
+  padding: 5px 12px;
+  background-color: #9C71F9;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.number {
+  font-size: 22px;
+  margin-bottom: -4px;
 }

@@ -21,7 +21,13 @@ class Questions extends React.Component {
   render() {
     return (
       <div className="questions">
-        <div className="title">{this.props.title}</div>
+        <div className="title">
+          <div className="score">
+            <div className="number">{this.props.score}</div>
+            <div>Score</div>
+          </div>
+          <div className=""> {this.props.title}</div>
+          </div>
         {this.props.subs.map((subq) => {
           return <Subquestion subtitle={subq.subtitle} content={subq.content}/>;
         })}
@@ -144,7 +150,7 @@ class View extends React.Component {
         </div>
         <div className="rightCol">
         {this.state.qs.map((question) => {
-          return <Questions title={question.title} subs={question.subs}/>;
+          return <Questions title={question.title} score={5} subs={question.subs}/>;
         })}
         </div>
       </div>
