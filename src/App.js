@@ -27,9 +27,6 @@ class Entry extends React.Component {
               </div>
               <Link to={{
                 pathname: `/view/${this.props.id}`,
-                state: {
-                  id: this.props.id
-                }
               }}>
                 <img className='headshot' src={face2}/>
               </Link>

@@ -5,10 +5,6 @@ import View from "./View";
 import App from "./App";
 
 class Main extends React.Component {
-  constructor() {
-    super();
-  }
-
   render() {
     return (
       <HashRouter>

@@ -12,15 +12,43 @@ class View extends React.Component {
   constructor() {
     super();
     this.state = {
-      appName: "Applicant",
-      appInfo: {}
+      appId: null,
+      appInfo: {},
+      appList: []
     }
+  }
+
+  componentDidMount() {
+    let app;
+    let newList = [];
+
+    const appRef = firebase.database().ref('applicants/'+this.props.match.params.id);
+    appRef.on('value', (snapshot) => {
+      app = snapshot.val();
+    });
+
+    const itemsRef = firebase.database().ref('applicants');
+    itemsRef.once('value', (snapshot) => {
+      let items = snapshot.val();
+      for (let item in items) {
+        newList.push({
+          id: item,
+          applicant: items[item].applicant
+        });
+      }
+    });
+
+    this.setState({
+      appId: this.props.match.params.id,
+      appInfo: app,
+      appList: newList
+    });
   }
 
   render() {
     return (
       <div>
-        {this.props.location.state.id}
+        {this.state.appId}
       </div>
     );
   }
