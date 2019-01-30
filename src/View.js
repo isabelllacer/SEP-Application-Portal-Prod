@@ -10,8 +10,8 @@ class Subquestion extends React.Component {
   render() {
     return (
       <div className="subquestion">
-        {this.props.subtitle}
-        {this.props.content}
+        <div className="subtitle">{this.props.subtitle}</div>
+        <div className="content">{this.props.content}</div>
       </div>
     );
   }

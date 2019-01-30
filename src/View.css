@@ -47,8 +47,7 @@ body {
   font-size: 25px;
   display: flex;
   margin: 10px auto;
-  padding: 15px 0px;
-  padding-right: 0px;
+  padding: 12px 0px;
   width: calc(100%);
   background-color: #E0E0E0;
   align-items: center;
@@ -69,4 +68,22 @@ body {
 .number {
   font-size: 22px;
   margin-bottom: -4px;
+}
+
+.subquestion {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtitle {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.content {
+   background-color: white;
+   padding: 12px 18px;
+   width: calc(100%-12px);
+   line-height: 1.4;
 }
