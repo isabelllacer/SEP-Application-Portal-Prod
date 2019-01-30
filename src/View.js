@@ -6,6 +6,30 @@ import face2 from './pictures/face2.jpg';
 import face3 from './pictures/face3.jpg';
 import { Link } from 'react-router-dom';
 
+class Subquestion extends React.Component {
+  render() {
+    return (
+      <div className="subquestion">
+        {this.props.subtitle}
+        {this.props.content}
+      </div>
+    );
+  }
+}
+
+class Questions extends React.Component {
+  render() {
+    return (
+      <div className="questions">
+        <div className="title">{this.props.title}</div>
+        {this.props.subs.map((subq) => {
+          return <Subquestion subtitle={subq.subtitle} content={subq.content}/>;
+        })}
+      </div>
+    );
+  }
+}
+
 class Detail extends React.Component {
   render() {
     return (
@@ -66,31 +90,31 @@ class View extends React.Component {
 
       let newQs = [];
       newQs.push({
-        title: "Applicantion Questions",
+        title: "Application Questions",
         subs: [{subtitle: "List your other time commitments for the semester.",
-        content: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
           vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa."`
+          vehicula, erat ut mattis volutpa.`
         },
         {subtitle: "Tell us about your interests.",
-        content: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
           vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
           vehicula, erat ut mattis volutpa. Lorem ipsum dolor sit amet, consectetur
           adipiscing elit.
           Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
           vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa."`
+          vehicula, erat ut mattis volutpa.`
         },
-        {subtitle: `"Why do you want to be in Sigma Eta Pi? How will you
-          contribute to the organization? (250 words or less)"`,
-        content: `"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        {subtitle: `Why do you want to be in Sigma Eta Pi? How will you
+          contribute to the organization? (250 words or less)`,
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
           vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
           vehicula, erat ut mattis volutpa. Fusce nec nunc ante. Nam feugiat elit
           justo, ac eleifend urna dapibus vel. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Mauris vehicula, erat ut mattis volutpa."`
+          consectetur adipiscing elit. Mauris vehicula, erat ut mattis volutpa.`
       }]});
 
       this.setState({
@@ -120,7 +144,7 @@ class View extends React.Component {
         </div>
         <div className="rightCol">
         {this.state.qs.map((question) => {
-          return <div>{question.title}</div>;
+          return <Questions title={question.title} subs={question.subs}/>;
         })}
         </div>
       </div>
