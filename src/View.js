@@ -111,6 +111,60 @@ class Questions extends React.Component {
   }
 }
 
+//own internal state of showing dropdown
+//list of absolutely positioned divs
+//onclick of each passed from parent to update app state.
+//remember status is capital letter first
+
+//clicking an option should close dropdown. add onto passed in function
+class Status extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      active: false
+    }
+  }
+
+  editClick() {
+    const newActive = !this.state.active;
+    this.setState({
+      active: newActive
+    });
+  }
+
+  optionClick(option) {
+      this.editClick();
+      this.props.onClick(option);
+  }
+
+  render() {
+    const options = ["Pending", "Next Round", "Bid", "Cut"];
+    const show = this.state.active ? "active" : "inactive";
+
+    return (
+      <div className="dropdown">
+        <div className="statusContainer" onClick={() => this.editClick()}>
+          <div className="status">
+            {this.props.status}
+          </div>
+          <div className="statusEdit">
+            <img className="pencil" src={pencil} />
+          </div>
+        </div>
+        <div className={"optionContainer " + show}>
+          {options.map((opt) => {
+            return opt !== this.props.status ?
+            <div className="option" onClick={() => this.optionClick(opt)}>
+              {opt}
+            </div> :
+            <div></div>;
+          })}
+        </div>
+      </div>
+    );
+  }
+}
+
 class Detail extends React.Component {
   render() {
     const category = this.props.category;
@@ -159,6 +213,10 @@ class View extends React.Component {
   componentDidMount() {
     var app = {};
     let newList = [];
+
+    firebase.auth().signInWithEmailAndPassword("isabelllacer@berkeley.edu", "123456").catch(function(error) {
+      console.log(error)
+    });
 
     const itemsRef = firebase.database().ref('applicants');
     itemsRef.once('value', (snapshot) => {
@@ -263,6 +321,14 @@ class View extends React.Component {
     });
   }
 
+  statusClick(option) {
+    const id = this.state.appId;
+    //update in firebase and state should update automatically
+    firebase.database().ref('applicants/'+id).update({
+      status: option
+    });
+  }
+
   render() {
     return (
       <div className="container">
@@ -273,14 +339,7 @@ class View extends React.Component {
           <div className="shot">
             <img className='headPic' src={face1}/>
           </div>
-          <div className="statusContainer">
-            <div className="status">
-              {this.state.status}
-            </div>
-            <div className="statusEdit">
-              <img className="pencil" src={pencil} />
-            </div>
-          </div>
+          <Status status={this.state.status} onClick={(option) => this.statusClick(option)}/>
           {Object.keys(this.state.appInfo).map((field) => {
             return <Detail category={field} value={this.state.appInfo[field]}/>;
           })}

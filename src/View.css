@@ -43,14 +43,15 @@ body {
   font-size: 20px;
   background-color: white;
   font-weight: bold;
-  min-width: 40%;
+  width: 100%;
   padding: 8px 25px;
   margin: 20px 0px;
-  border-radius: 10px;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+  align-items: center;
   cursor: pointer;
+  position: relative;
 }
 
 .statusContainer:hover {
@@ -59,6 +60,48 @@ body {
 
 .pencil {
   height: 20px;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  min-width: 40%;
+  position: relative;
+}
+
+.optionContainer {
+  font-size: 20px;
+  background-color: white;
+  font-weight: bold;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  margin-top: 60px;
+  align-items: flex-start;
+  cursor: pointer;
+  position: absolute;
+}
+
+.inactive {
+  display: none;
+}
+
+.active {
+  display: flex;
+}
+
+.option {
+  padding: 8px 25px;
+  width: 100%;
+  background-color: white;
+  border-top: 1px solid #F6F6F6;
+}
+
+.option:hover {
+  background-color: #F6F6F6;
 }
 
 .detail {
