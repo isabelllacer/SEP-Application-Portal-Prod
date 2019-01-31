@@ -241,32 +241,43 @@ class App extends React.Component {
     itemsRef.on('value', (snapshot) => {
       let items = snapshot.val();
       let newState = [];
+      let newHidden = [];
 
       const hidden = this.state.hidden.map((item) => {
-        return item.id;
+        return "" + item.id;
       });
       const starred = this.state.items.map((item) => {
         return item.star ? "" + item.id : "";
       });
 
       for (let item in items) {
-        const starry = starred.includes(("" + item));
-        console.log(starry);
-        newState.push({
-          id: item,
-          applicant: items[item].applicant,
-          status: items[item].status,
-          major: items[item].major,
-          year: items[item].year,
-          star: starry,
-          hide: false,
-        });
+        if (hidden.includes("" + item)) {
+          newHidden.push({
+            id: item,
+            applicant: items[item].applicant,
+            status: items[item].status,
+            major: items[item].major,
+            year: items[item].year,
+            star: false,
+            hide: true,
+          });
+        } else {
+          const starry = starred.includes(("" + item));
+          newState.push({
+            id: item,
+            applicant: items[item].applicant,
+            status: items[item].status,
+            major: items[item].major,
+            year: items[item].year,
+            star: starry,
+            hide: false,
+          });
+        }
       }
 
       var storage = firebase.storage();
 
       const sorter = this.state.sortBy;
-      const hid = this.state.hidden;
       const coll = this.state.collapse;
       newState.sort(appSort(sorter));
       const cols = this.state.columns.slice();
@@ -274,7 +285,7 @@ class App extends React.Component {
         items: newState,
         sortBy: sorter,
         columns: cols,
-        hidden: hid,
+        hidden: newHidden,
         collapse: coll
       });
     });
