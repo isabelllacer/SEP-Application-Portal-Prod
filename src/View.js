@@ -4,6 +4,7 @@ import firebase from './firebase.js';
 import face1 from './pictures/face1.jpg';
 import face2 from './pictures/face2.jpg';
 import face3 from './pictures/face3.jpg';
+import pencil from './pictures/black_pencil.png';
 import { Link } from 'react-router-dom';
 
 class Subquestion extends React.Component {
@@ -119,7 +120,6 @@ class Detail extends React.Component {
         </div>
       );
     }
-
 
     return (
       <div className="detail">
@@ -269,6 +269,14 @@ class View extends React.Component {
           </div>
           <div className="shot">
             <img className='headPic' src={face1}/>
+          </div>
+          <div className="statusContainer">
+            <div className="status">
+              {this.state.status}
+            </div>
+            <div className="statusEdit">
+
+            </div>
           </div>
           {Object.keys(this.state.appInfo).map((field) => {
             return <Detail category={field} value={this.state.appInfo[field]}/>;
