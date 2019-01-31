@@ -107,29 +107,9 @@ class Entry extends React.Component {
           </div>
       );
     }
-    let content;
+    let content = this.props.value;
     if (this.props.colored) {
-      let color;
-      switch (this.props.value) {
-        case 'Pending':
-          color = 'yellow';
-          break;
-        case 'Bid':
-          color = 'green';
-          break;
-        case 'Next Round':
-          color = 'blue';
-          break;
-        case 'Cut':
-          color = 'red';
-          break;
-        default:
-          content = this.props.value;
-      }
       return <Status status={this.props.value} onClick={(option) => {this.props.onClick(option)}}/>;
-      content = <div className={'highlight ' + color}>{this.props.value}</div>
-    } else {
-      content = this.props.value;
     }
     const click = this.props.column ? () => this.props.onClick() : null;
     let bold = "";
@@ -261,14 +241,24 @@ class App extends React.Component {
     itemsRef.on('value', (snapshot) => {
       let items = snapshot.val();
       let newState = [];
+
+      const hidden = this.state.hidden.map((item) => {
+        return item.id;
+      });
+      const starred = this.state.items.map((item) => {
+        return item.star ? "" + item.id : "";
+      });
+
       for (let item in items) {
+        const starry = starred.includes(("" + item));
+        console.log(starry);
         newState.push({
           id: item,
           applicant: items[item].applicant,
           status: items[item].status,
           major: items[item].major,
           year: items[item].year,
-          star: false,
+          star: starry,
           hide: false,
         });
       }
@@ -295,6 +285,7 @@ class App extends React.Component {
     firebase.database().ref('applicants/'+appId).update({
       status: status
     });
+    //componendidmount resets the stars/hides here... way to prevent
   }
 
   //both show and hide from click on bar
