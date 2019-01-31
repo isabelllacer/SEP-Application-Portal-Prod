@@ -51,6 +51,72 @@ a {
   display: inline-block;
   border-radius: 10px;
   padding: 10px 20px;
+  cursor: pointer;
+}
+
+.highlight:hover {
+  opacity: 0.7;
+}
+
+.statusContainerMain {
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 8px 15px;
+  margin: 20px 0px;
+  width: 45%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.statusContainerMain:hover {
+  opacity: 0.7;
+}
+
+.dropdownMain {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  position: relative;
+  align-items: center;
+  flex: 1;
+}
+
+.optionContainerMain {
+  font-size: 20px;
+  width: 45%;
+  z-index: 1;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  margin-top: 60px;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  border-radius: 10px;
+}
+
+.inactive {
+  display: none;
+}
+
+.active {
+  display: flex;
+}
+
+.optionMain {
+  padding: 8px 15px;
+  width: 100%;
+  background-color: white;
+  border-top: 1px solid #F6F6F6;
+}
+
+.optionMain:hover {
+  background-color: #F6F6F6;
 }
 
 .yellow {

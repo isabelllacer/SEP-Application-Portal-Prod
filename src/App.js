@@ -11,6 +11,71 @@ import arrow from './pictures/arrow.png';
 import { Link, HashRouter, Route } from 'react-router-dom';
 import View from "./View";
 
+//clicking an option should close dropdown. add onto passed in function
+class Status extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      active: false
+    }
+  }
+
+  editClick() {
+    const newActive = !this.state.active;
+    this.setState({
+      active: newActive
+    });
+  }
+
+  optionClick(option) {
+      this.editClick();
+      this.props.onClick(option);
+  }
+
+  render() {
+    const options = ["Pending", "Next Round", "Bid", "Cut"];
+    const show = this.state.active ? "active" : "inactive";
+
+    let color;
+    switch (this.props.status) {
+      case 'Pending':
+        color = 'yellow';
+        break;
+      case 'Bid':
+        color = 'green';
+        break;
+      case 'Next Round':
+        color = 'blue';
+        break;
+      case 'Cut':
+        color = 'red';
+        break;
+
+      default:
+        color = 'yellow';
+      }
+
+    return (
+      <div className="dropdownMain entry">
+        <div className={"statusContainerMain " + color} onClick={() => this.editClick()}>
+          <div className="statusMain">
+            {this.props.status}
+          </div>
+        </div>
+        <div className={"optionContainerMain " + show}>
+          {options.map((opt) => {
+            return opt !== this.props.status ?
+            <div className="optionMain" onClick={() => this.optionClick(opt)}>
+              {opt}
+            </div> :
+            <div></div>;
+          })}
+        </div>
+      </div>
+    );
+  }
+}
+
 class Entry extends React.Component {
   handleEyeClick = () => {
     this.props.onEyeClick();
@@ -61,6 +126,7 @@ class Entry extends React.Component {
         default:
           content = this.props.value;
       }
+      return <Status status={this.props.value} onClick={(option) => {this.props.onClick(option)}}/>;
       content = <div className={'highlight ' + color}>{this.props.value}</div>
     } else {
       content = this.props.value;
@@ -126,7 +192,7 @@ class Row extends React.Component {
     return (
       <div key={this.props.info.id} className={'row' + starred}>
         {<Entry applicant={true} id={this.props.info.id} onClick={() => this.props.onClick()} onEyeClick={this.props.onEyeClick} star={this.props.info.star} value={this.props.info.applicant}/>}
-        {<Entry status={true} colored={true} value={this.props.info.status}/>}
+        {<Entry status={true} onClick={(option) => this.props.onClick(option)} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
       </div>
@@ -187,6 +253,10 @@ class App extends React.Component {
   //OR retrieve all info here and pass entire item to view. maybe bad bc wont
   //want full list of items in the sidebar in view
   componentDidMount() {
+    firebase.auth().signInWithEmailAndPassword("isabelllacer@berkeley.edu", "123456").catch(function(error) {
+      console.log(error)
+    });
+
     const itemsRef = firebase.database().ref('applicants');
     itemsRef.on('value', (snapshot) => {
       let items = snapshot.val();
@@ -217,6 +287,13 @@ class App extends React.Component {
         hidden: hid,
         collapse: coll
       });
+    });
+  }
+
+  statusClick(status, index) {
+    const appId = this.state.items[index].id;
+    firebase.database().ref('applicants/'+appId).update({
+      status: status
     });
   }
 
@@ -324,7 +401,7 @@ class App extends React.Component {
           <div className='table'>
             {<Columns onClick={(v) => this.columnClick(v)} sorter={this.state.sortBy}/>}
             {this.state.items.map((item, i) => {
-              return <Row info={item} onClick={() => this.starClick(i)} onEyeClick={() => this.eyeClick(i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
+              return <Row info={item} onClick={() => this.starClick(i)} onEyeClick={() => this.eyeClick(i)} onStatusClick={(status) => this.statusClick(status, i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
             })}
             <Hider count={this.state.hidden.length} onClick={() => this.hiddenClick()} collapse={this.state.collapse}/>
             {this.state.hidden.map((item, i) => {
