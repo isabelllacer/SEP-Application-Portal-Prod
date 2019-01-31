@@ -48,6 +48,10 @@ body {
 .bolded {
   font-weight: bold;
 }
+
+.bigger {
+  font-size: 18px;
+}
 .questions {
   margin-top: 40px;
 }
@@ -66,7 +70,6 @@ body {
   margin: auto 20px;
   border-radius: 10px;
   padding: 5px 12px;
-  background-color: #9C71F9;
   font-size: 11px;
   display: flex;
   flex-direction: column;
@@ -74,9 +77,33 @@ body {
   align-items: center;
 }
 
+.filler {
+  width: 15px;
+}
+
 .number {
   font-size: 22px;
   margin-bottom: -4px;
+}
+
+.five {
+  background-color: #9C71F9;
+}
+
+.four {
+  background-color: #B897FF;
+}
+
+.three {
+  background-color: #CAB2FF;
+}
+
+.two {
+  background-color: #D6C4FF;
+}
+
+.one {
+  background-color: #E6DBFF;
 }
 
 .subquestion {
@@ -99,4 +126,44 @@ body {
    padding: 12px 18px;
    width: calc(100%-12px);
    line-height: 1.4;
+}
+
+.subscore {
+  margin: auto 20px;
+  border-radius: 10px;
+  padding: 3px 9px;
+  font-size: 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.subnumber {
+  font-size: 19px;
+  margin-bottom: -4px;
+}
+
+.subfive {
+  background-color: rgba(89,175,255,1);
+}
+
+.subfour {
+  background-color: rgba(89,175,255,0.7);
+}
+
+.subthree {
+  background-color: rgba(89,175,255,0.5);
+}
+
+.subtwo {
+  background-color: rgba(89,175,255,0.3);
+}
+
+.subone {
+  background-color: rgba(89,175,255,0.1);
+}
+
+.interviewers {
+  margin-top: 30px;
 }

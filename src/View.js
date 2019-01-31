@@ -9,19 +9,43 @@ import { Link } from 'react-router-dom';
 class Subquestion extends React.Component {
   render() {
     const score = this.props.score || 0;
+    let color;
+    switch (score + '') {
+      case '5':
+        color = 'five';
+        break;
+      case '4':
+        color = 'four';
+        break;
+      case '3':
+        color = 'three';
+        break;
+      case '2':
+        color = 'two';
+        break;
+      default:
+        color = 'one';
+    }
+
+    const subtitle = this.props.subtitle || "";
+    const subtitleBox = subtitle === "" ?
+      <div></div> :
+      <div className="subtitle">
+      {scoreBox}
+      <div>{this.props.subtitle}</div>
+      </div>;
+
     const scoreBox = score !== 0 ?
-      <div className="score">
-        <div className="number">{this.props.score}</div>
+      <div className={"subscore sub" + color}>
+        <div className="subnumber">{this.props.score}</div>
         <div>Score</div>
       </div> :
       <div></div>;
+
     return (
       <div className="subquestion">
-        <div className="subtitle">
-        {scoreBox}
-        <div>{this.props.subtitle}</div>
-        </div>
-        <div className="content">{this.props.content}</div>
+        {subtitleBox}
+        <div className={"content" + (subtitle === "" ? " bigger" : "")}>{this.props.content}</div>
       </div>
     );
   }
@@ -34,20 +58,49 @@ Interviwers Slot
 */
 class Questions extends React.Component {
   render() {
-    const score = this.props.title.toLowerCase() !== "notes" ?
-      <div className="score">
+    const score = this.props.score || 0;
+    let color;
+    switch (score + '') {
+      case '5':
+        color = 'five';
+        break;
+      case '4':
+        color = 'four';
+        break;
+      case '3':
+        color = 'three';
+        break;
+      case '2':
+        color = 'two';
+        break;
+      default:
+        color = 'one';
+    }
+    const scoreBox = score !== 0 ?
+      <div className={"score " + color}>
         <div className="number">{this.props.score}</div>
         <div>Score</div>
       </div> :
+      <div className="filler"></div>;
+
+      const interviewers = this.props.interviewers || [];
+      const interview = interviewers.length > 0 ?
+      <div className="interviewers">
+        <span className="bolded">Interviewers: </span>
+        {interviewers.map((i, index) => {
+          const end = index === interviewers.length - 1 ? "" : ", ";
+          return i + end;
+        })}
+      </div> :
       <div></div>;
-    //const interviewers = this.props.interviewers || "";
+
     return (
       <div className="questions">
         <div className="title">
-          {score}
+          {scoreBox}
           <div className=""> {this.props.title}</div>
         </div>
-        <div className="interviewers">{this.props.interviewers}</div>
+        {interview}
         {this.props.subs.map((subq) => {
           return <Subquestion subtitle={subq.subtitle} score={subq.score} content={subq.content}/>;
         })}
@@ -88,6 +141,8 @@ class View extends React.Component {
   }
 
   //will need to parse out left column info and right column info into state
+  //TODO: nullstate of score but needed eventually
+  //REMEMBER order of Qs matter (currently determined by firebase order)
   componentDidMount() {
     var app = {};
     let newList = [];
@@ -116,7 +171,16 @@ class View extends React.Component {
 
       let newQs = [];
       newQs.push({
+        title: "Notes",
+        subs: [{content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa. `
+      }]});
+
+      newQs.push({
         title: "Application Questions",
+        score: 5,
         subs: [{subtitle: "List your other time commitments for the semester.",
         content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
@@ -145,6 +209,7 @@ class View extends React.Component {
 
       newQs.push({
         title: "Professional Interview",
+        score: 2,
         interviewers: ["LeAnne", "Isabel", "Alex"],
         subs: [{subtitle: "List your other time commitments for the semester.",
         score: 5,
@@ -193,7 +258,7 @@ class View extends React.Component {
             {this.state.appInfo.applicant}
           </div>
           <div className="shot">
-            <img className='headPic' src={face2}/>
+            <img className='headPic' src={face1}/>
           </div>
           {Object.keys(this.state.appInfo).map((field) => {
             return <Detail category={field} value={this.state.appInfo[field]}/>;
@@ -201,7 +266,7 @@ class View extends React.Component {
         </div>
         <div className="rightCol">
         {this.state.qs.map((question) => {
-          return <Questions title={question.title} score={5} subs={question.subs}/>;
+          return <Questions title={question.title} score={question.score} interviewers={question.interviewers} subs={question.subs}/>;
         })}
         </div>
       </div>
