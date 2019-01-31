@@ -134,9 +134,8 @@ class View extends React.Component {
   }
 
   render() {
-    console.log(Object.keys(this.state.appInfo));
     return (
-      <div>
+      <div className="container">
         <div className="leftCol">
           <div className="name">
             {this.state.appInfo.applicant}
