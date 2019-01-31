@@ -5,6 +5,7 @@ import face1 from './pictures/face1.jpg';
 import face2 from './pictures/face2.jpg';
 import face3 from './pictures/face3.jpg';
 import pencil from './pictures/black_pencil.png';
+import eye from './pictures/black_eye.png';
 import { Link } from 'react-router-dom';
 
 class Subquestion extends React.Component {
@@ -116,7 +117,9 @@ class Detail extends React.Component {
     if (category === "resume") {
       return (
         <div className="resume">
-          <span className="bolded"> <a className="resumeLink" target="_blank" href={this.props.value}> Open Resume </a></span>
+          <span className="bolded">
+            <a className="resumeLink" target="_blank" href={this.props.value}> Open Resume </a>
+          </span>
         </div>
       );
     }
@@ -275,7 +278,7 @@ class View extends React.Component {
               {this.state.status}
             </div>
             <div className="statusEdit">
-
+              <img className="pencil" src={pencil} />
             </div>
           </div>
           {Object.keys(this.state.appInfo).map((field) => {
