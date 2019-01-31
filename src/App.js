@@ -192,7 +192,7 @@ class Row extends React.Component {
     return (
       <div key={this.props.info.id} className={'row' + starred}>
         {<Entry applicant={true} id={this.props.info.id} onClick={() => this.props.onClick()} onEyeClick={this.props.onEyeClick} star={this.props.info.star} value={this.props.info.applicant}/>}
-        {<Entry status={true} onClick={(option) => this.props.onClick(option)} colored={true} value={this.props.info.status}/>}
+        {<Entry status={true} onClick={(option) => this.props.onStatusClick(option)} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
       </div>
