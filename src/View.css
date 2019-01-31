@@ -21,7 +21,7 @@ body {
   display: flex;
   flex-direction: column;
   min-width: 700px;
-  margin-top: 85px;
+  margin-top: 45px;
   width: 58%;
 }
 
@@ -48,7 +48,9 @@ body {
 .bolded {
   font-weight: bold;
 }
-
+.questions {
+  margin-top: 40px;
+}
 .title {
   font-weight: bold;
   font-size: 25px;
@@ -86,6 +88,10 @@ body {
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
 }
 
 .content {

@@ -8,28 +8,48 @@ import { Link } from 'react-router-dom';
 
 class Subquestion extends React.Component {
   render() {
+    const score = this.props.score || 0;
+    const scoreBox = score !== 0 ?
+      <div className="score">
+        <div className="number">{this.props.score}</div>
+        <div>Score</div>
+      </div> :
+      <div></div>;
     return (
       <div className="subquestion">
-        <div className="subtitle">{this.props.subtitle}</div>
+        <div className="subtitle">
+        {scoreBox}
+        <div>{this.props.subtitle}</div>
+        </div>
         <div className="content">{this.props.content}</div>
       </div>
     );
   }
 }
 
+/* Cases:
+Subtitle Scores
+Notes Format (No Title Score)
+Interviwers Slot
+*/
 class Questions extends React.Component {
   render() {
+    const score = this.props.title.toLowerCase() !== "notes" ?
+      <div className="score">
+        <div className="number">{this.props.score}</div>
+        <div>Score</div>
+      </div> :
+      <div></div>;
+    //const interviewers = this.props.interviewers || "";
     return (
       <div className="questions">
         <div className="title">
-          <div className="score">
-            <div className="number">{this.props.score}</div>
-            <div>Score</div>
-          </div>
+          {score}
           <div className=""> {this.props.title}</div>
-          </div>
+        </div>
+        <div className="interviewers">{this.props.interviewers}</div>
         {this.props.subs.map((subq) => {
-          return <Subquestion subtitle={subq.subtitle} content={subq.content}/>;
+          return <Subquestion subtitle={subq.subtitle} score={subq.score} content={subq.content}/>;
         })}
       </div>
     );
@@ -115,6 +135,38 @@ class View extends React.Component {
         },
         {subtitle: `Why do you want to be in Sigma Eta Pi? How will you
           contribute to the organization? (250 words or less)`,
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa. Fusce nec nunc ante. Nam feugiat elit
+          justo, ac eleifend urna dapibus vel. Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit. Mauris vehicula, erat ut mattis volutpa.`
+      }]});
+
+      newQs.push({
+        title: "Professional Interview",
+        interviewers: ["LeAnne", "Isabel", "Alex"],
+        subs: [{subtitle: "List your other time commitments for the semester.",
+        score: 5,
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa.`
+        },
+        {subtitle: "Tell us about your interests.",
+        score: 4,
+        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa. Lorem ipsum dolor sit amet, consectetur
+          adipiscing elit.
+          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
+          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          vehicula, erat ut mattis volutpa.`
+        },
+        {subtitle: `Why do you want to be in Sigma Eta Pi? How will you
+          contribute to the organization? (250 words or less)`,
+        score: 3,
         content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
           vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
