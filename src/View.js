@@ -111,9 +111,19 @@ class Questions extends React.Component {
 
 class Detail extends React.Component {
   render() {
+    const category = this.props.category;
+    if (category === "resume") {
+      return (
+        <div className="resume">
+          <span className="bolded"> <a className="resumeLink" target="_blank" href={this.props.value}> Open Resume </a></span>
+        </div>
+      );
+    }
+
+
     return (
       <div className="detail">
-        <span className="bolded"> {this.props.category.charAt(0).toUpperCase() + this.props.category.slice(1)}: </span>
+        <span className="bolded"> {category === "gpa" ? category.toUpperCase() : category.charAt(0).toUpperCase() + category.slice(1)}: </span>
         {this.props.value}
       </div>
     );
@@ -165,7 +175,7 @@ class View extends React.Component {
       const stat = app["status"];
       delete app.status;
       app["gpa"] = "4.0";
-      app["resume"] = "";
+      app["resume"] = "https://drive.google.com/open?id=1895ccUJdAmlJzZyo0AIFP27NH9Bjmdn7";
       app["email"] = "apalmer@berkeley.edu";
       app["phone"] = "4085504766";
 

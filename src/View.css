@@ -45,6 +45,16 @@ body {
   font-size: 18px;
 }
 
+.resume {
+  margin: 20px 0px;
+  text-decoration: underline;
+  font-size: 18px;
+}
+
+.resume:hover {
+  opacity: 0.7;
+}
+
 .bolded {
   font-weight: bold;
 }
