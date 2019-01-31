@@ -158,7 +158,7 @@ class HiddenRow extends React.Component {
     return (
       <div key={this.props.info.id} className={'row'}>
         {<HiddenApplicant onEyeClick={this.props.onEyeClick} value={this.props.info.applicant}/>}
-        {<Entry status={true} colored={true} value={this.props.info.status}/>}
+        {<Entry status={true} onClick={(option) => this.props.onStatusClick(option)} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
       </div>
@@ -291,12 +291,19 @@ class App extends React.Component {
     });
   }
 
+  hiddenStatusClick(status, index) {
+    const appId = this.state.hidden[index].id;
+    firebase.database().ref('applicants/'+appId).update({
+      status: status
+    });
+    //componendidmount resets the stars/hides here... way to prevent
+  }
+
   statusClick(status, index) {
     const appId = this.state.items[index].id;
     firebase.database().ref('applicants/'+appId).update({
       status: status
     });
-    //componendidmount resets the stars/hides here... way to prevent
   }
 
   //both show and hide from click on bar
@@ -407,7 +414,7 @@ class App extends React.Component {
             })}
             <Hider count={this.state.hidden.length} onClick={() => this.hiddenClick()} collapse={this.state.collapse}/>
             {this.state.hidden.map((item, i) => {
-              return <HiddenRow info={item} collapse={this.state.collapse} onEyeClick={() => this.unhideClick(i)}/>;
+              return <HiddenRow info={item} collapse={this.state.collapse} onEyeClick={() => this.unhideClick(i)} onStatusClick={(status) => this.hiddenStatusClick(status, i)}/>;
             })}
           </div>
         </div>
