@@ -27,6 +27,13 @@ class Subquestion extends React.Component {
         color = 'one';
     }
 
+    const scoreBox = score !== 0 ?
+      <div className={"subscore sub" + color}>
+        <div className="subnumber">{this.props.score}</div>
+        <div>Score</div>
+      </div> :
+      <div></div>;
+
     const subtitle = this.props.subtitle || "";
     const subtitleBox = subtitle === "" ?
       <div></div> :
@@ -34,13 +41,6 @@ class Subquestion extends React.Component {
       {scoreBox}
       <div>{this.props.subtitle}</div>
       </div>;
-
-    const scoreBox = score !== 0 ?
-      <div className={"subscore sub" + color}>
-        <div className="subnumber">{this.props.score}</div>
-        <div>Score</div>
-      </div> :
-      <div></div>;
 
     return (
       <div className="subquestion">
