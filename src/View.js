@@ -322,9 +322,7 @@ class View extends React.Component {
   }
 
   statusClick(option) {
-    const id = this.state.appId;
-    //update in firebase and state should update automatically
-    firebase.database().ref('applicants/'+id).update({
+    firebase.database().ref('applicants/'+this.state.appId).update({
       status: option
     });
   }
