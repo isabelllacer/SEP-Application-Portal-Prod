@@ -83,6 +83,14 @@ class Entry extends React.Component {
 
   render() {
     if (this.props.applicant) {
+      let face = face2;
+      try {
+       face = require('./pictures/' + this.props.value.replace(/\s+/g, '-').toLowerCase()+'.jpg')
+      }
+      catch (e) {
+       console.log('Error in retrieving photo');
+       console.log(e)
+      }
       return (
           <div className='applicant'>
             <div className='head_container'>
@@ -93,7 +101,7 @@ class Entry extends React.Component {
               <Link to={{
                 pathname: `/view/${this.props.id}`,
               }}>
-                <img className='headshot' src={face1}/>
+                <img className='headshot' src={face}/>
               </Link>
             </div>
             <Link to={{

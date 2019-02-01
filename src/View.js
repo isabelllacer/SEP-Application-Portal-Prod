@@ -1,7 +1,6 @@
 import React from 'react';
 import './View.css';
 import firebase from './firebase.js';
-import face1 from './pictures/face1.jpg';
 import face2 from './pictures/face2.jpg';
 import face3 from './pictures/face3.jpg';
 import pencil from './pictures/black_pencil.png';
@@ -435,6 +434,14 @@ class View extends React.Component {
   }
 
   render() {
+    let face = face2;
+    try {
+     face = require('./pictures/' + this.state.appInfo.applicant.replace(/\s+/g, '-').toLowerCase()+'.jpg')
+    }
+    catch (e) {
+     console.log('Error in retrieving photo');
+     console.log(e)
+    }
     return (
       <div className="container">
         <div className="leftCol">
@@ -442,7 +449,7 @@ class View extends React.Component {
             {this.state.appInfo.applicant}
           </div>
           <div className="shot">
-            <img className='headPic' src={face1}/>
+            <img className='headPic' src={face}/>
           </div>
           <Status status={this.state.status} onClick={(option) => this.statusClick(option)}/>
           {Object.keys(this.state.appInfo).map((field) => {
