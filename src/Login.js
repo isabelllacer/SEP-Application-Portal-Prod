@@ -83,7 +83,7 @@ class Login extends React.Component {
         <div className="background">
           <div className="modal">
             <div className="logo">
-              <img src={logo} />
+              <img className="loginLogo" src={logo} />
             </div>
             <form>
               <input
