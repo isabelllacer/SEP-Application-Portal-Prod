@@ -12,7 +12,8 @@ class Login extends React.Component {
       username: "Username",
       password: "Password",
       attempt: false,
-      success: false
+      success: false,
+      authFirebaseListener: {}
     }
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -28,25 +29,57 @@ class Login extends React.Component {
     });
   }
 
+  /*
+  componentWillMount() {
+    firebase.auth().signOut().then(function() {
+      console.log('Signed Out');
+  }, function(error) {
+    console.error('Sign Out Error', error);
+  });
+  }
+  */
+
   handleSubmit() {
-    //login, if successful redirect
-    console.log("Proper submit called");
-    let self = this.state;
-    firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch(function(error) {
+    let attempt = this.state.attempt;
+    this.state.authFirebaseListener = firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch(function(error) {
       console.log(error)
-      self.attempt = true;
+      attempt = true;
+    });
+    const newUsername = this.state.username;
+    const newPassword = this.state.password;
+    const succ = this.state.success;
+    const listener = this.state.authFirebaseListener;
+    this.setState({
+      username: newUsername,
+      password: newPassword,
+      attempt: attempt,
+      success: succ,
+      authFirebaseListener: listener
     });
   }
 
-  //component did mount not good for detecting logged in because need re-render to trigger
+  //listener triggers BUT componentdidmount does not trigger
   componentDidMount() {
     let self = this;
     firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      console.log("Logged in")
-      self.state.success = true;
+      const success = true;
+      const newUsername = self.state.username;
+      const newPassword = self.state.password;
+      const listener = self.state.authFirebaseListener;
+      self.setState({
+        username: newUsername,
+        password: newPassword,
+        attempt: false,
+        success: success,
+        authFirebaseListener: listener
+      });
       }
     });
+  }
+
+  componentWillUnmount() {
+   this.state.authFirebaseListener && this.state.authFirebaseListener() // Unlisten it by calling it as a function
   }
 
   render() {
@@ -58,7 +91,9 @@ class Login extends React.Component {
         </div>
         </HashRouter>);
     }
+
     const attempt = this.state.attempt ? "bad" : "";
+    console.log("Usual render")
     return (
         <div className="background">
           <div className="modal">
