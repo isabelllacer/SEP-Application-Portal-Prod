@@ -162,6 +162,7 @@ body {
 
 .optContainer {
   position: absolute;
+  z-index: 1;
   top: 46px;
   font-size: 22px;
   display: none;
@@ -236,7 +237,6 @@ body {
 }
 
 .subscore {
-  margin: auto 20px;
   border-radius: 10px;
   padding: 3px 9px;
   font-size: 9px;
@@ -249,6 +249,41 @@ body {
 .subnumber {
   font-size: 19px;
   margin-bottom: -4px;
+}
+
+.subscoreContainer {
+  position: relative;
+  margin: auto 20px;
+  cursor: pointer;
+}
+
+.subscore:hover {
+  opacity: 0.7;
+}
+
+.suboptContainer {
+  position: absolute;
+  z-index: 1;
+  top: 40px;
+  font-size: 22px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.subscoreOpt {
+  width: 100%;
+  text-align: center;
+  padding: 4px 0px;
+  background-color: white;
+  border-top: 1px solid #F6F6F6;
+  cursor: pointer;
+}
+
+.subscoreOpt:hover {
+  background-color: #E0E0E0;
 }
 
 .subfive {

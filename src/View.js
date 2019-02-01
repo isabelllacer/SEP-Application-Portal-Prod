@@ -9,6 +9,25 @@ import eye from './pictures/black_eye.png';
 import { Link } from 'react-router-dom';
 
 class SubscoreBox extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      active: false
+    }
+  }
+
+  scoreClick() {
+    const newActive = !this.state.active;
+    this.setState({
+      active: newActive
+    });
+  }
+
+  listClick(option) {
+      this.scoreClick();
+      this.props.onClick(option);
+  }
+
   render() {
   let color;
   switch (this.props.score + '') {
@@ -28,10 +47,22 @@ class SubscoreBox extends React.Component {
       color = 'one';
     }
 
-    return <div className={"subscore sub" + color}>
-      <div className="subnumber">{this.props.score}</div>
-      <div>Score</div>
-    </div> ;
+    const options = ["5", "4", "3", "2", "1"];
+    const show = this.state.active ? "active" : "inactive";
+
+    return <div className="subscoreContainer">
+          <div className={"subscore sub" + color} onClick={() => this.scoreClick()}>
+            <div className="subnumber">{this.props.score}</div>
+            <div>Score</div>
+          </div>
+          <div className={"suboptContainer " + show}>
+          {options.map((option) => {
+            return (this.props.score + "") !== option ?
+              <div className={"subscoreOpt "} onClick={() => this.listClick(option)}>{option}</div> :
+              <div></div>;
+          })}
+          </div>
+        </div>;
   }
 }
 
@@ -39,7 +70,7 @@ class Subquestion extends React.Component {
   render() {
     const score = this.props.score || 0;
     const scoreBox = score !== 0 ?
-      <SubscoreBox score={score}/>:
+      <SubscoreBox score={score} onClick={(option) => this.props.onClick(option)}/>:
       <div></div>;
 
     const subtitle = this.props.subtitle || "";
@@ -147,8 +178,8 @@ class Questions extends React.Component {
           <div className=""> {this.props.title}</div>
         </div>
         {interview}
-        {this.props.subs.map((subq) => {
-          return <Subquestion subtitle={subq.subtitle} score={subq.score} content={subq.content}/>;
+        {this.props.subs.map((subq, index) => {
+          return <Subquestion subtitle={subq.subtitle} onClick={(option) => this.props.subscoreClick(option, index)} score={subq.score} content={subq.content}/>;
         })}
       </div>
     );
@@ -365,6 +396,22 @@ class View extends React.Component {
     });
   }
 
+  subscoreClick(option, i1, i2) {
+    //firebase.database().ref('applicants/'+this.state.appId).update({
+    //  status: option
+    //});
+    //set qs at given index's score to option
+    let newQs = this.state.qs.slice();
+    newQs[i1].subs[i2].score = option;
+    this.setState({
+      appId: this.state.appId,
+      status: this.state.status,
+      appInfo: this.state.appInfo,
+      qs: newQs,
+      appList: this.state.appList
+    });
+  }
+
   scoreClick(option, index) {
     //firebase.database().ref('applicants/'+this.state.appId).update({
     //  status: option
@@ -410,6 +457,7 @@ class View extends React.Component {
             interviewers={question.interviewers}
             subs={question.subs}
             scoreClick={(option) => this.scoreClick(option, index)}
+            subscoreClick={(option, i2) => this.subscoreClick(option, index, i2)}
             />;
         })}
         </div>
