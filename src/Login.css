@@ -68,3 +68,14 @@ form {
 .loginLogo {
   width: 60%;
 }
+
+.attempt {
+  color: #C73C5B;
+  position: relative;
+  top: 20px;
+  display: none;
+}
+
+.bad {
+  display: default;
+}

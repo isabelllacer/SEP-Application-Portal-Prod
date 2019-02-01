@@ -2,54 +2,8 @@ import React from 'react';
 import './Login.css';
 import firebase from './firebase.js';
 import logo from './pictures/sep_logo_black.png';
-import { Link, HashRouter, Route } from 'react-router-dom';
+import { Link, HashRouter, Route, Redirect } from 'react-router-dom';
 import Main from "./Main";
-
-class Reservation extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isGoing: true,
-      numberOfGuests: 2
-    };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  render() {
-    return (
-      <form>
-        <label>
-          Is going:
-          <input
-            name="isGoing"
-            type="checkbox"
-            checked={this.state.isGoing}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Number of guests:
-          <input
-            name="numberOfGuests"
-            type="number"
-            value={this.state.numberOfGuests}
-            onChange={this.handleInputChange} />
-        </label>
-      </form>
-    );
-  }
-}
 
 class Login extends React.Component {
   constructor() {
@@ -57,6 +11,7 @@ class Login extends React.Component {
     this.state = {
       username: "Username",
       password: "Password",
+      attempt: false,
       success: false
     }
 
@@ -74,10 +29,27 @@ class Login extends React.Component {
   }
 
   handleSubmit() {
+    //login, if successful redirect
+    firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch(function(error) {
+      console.log(error)
+      this.state.attempt = true;
+    });
+  }
 
+  componentDidMount() {
+    let self = this;
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      self.state.success = true;
+      }
+    });
   }
 
   render() {
+    if (this.state.success) {
+      return (<HashRouter><Redirect to='/' /></HashRouter>);
+    }
+    const attempt = this.state.attempt ? "bad" : "";
     return (
       <HashRouter>
         <div className="background">
@@ -85,16 +57,17 @@ class Login extends React.Component {
             <div className="logo">
               <img className="loginLogo" src={logo} />
             </div>
+            <div className={"attempt "+attempt}>Incorrect username or password.</div>
             <form>
               <input
-                name="Username"
+                name="username"
                 className="inputter"
                 type="text"
                 value={this.state.Username}
                 onChange={this.handleInputChange} />
               <br />
               <input
-                name="Password"
+                name="password"
                 className="inputter"
                 type="text"
                 value={this.state.Password}
