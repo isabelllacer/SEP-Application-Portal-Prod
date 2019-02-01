@@ -115,8 +115,9 @@ class Entry extends React.Component {
     let bold = "";
     if (this.props.sort === this.props.value.toLowerCase()) {
       bold = " bolded";
+      const flipped = this.props.sign === -1 ? " flip" : "";
       content = <div className="relContainer">
-                  <img className="arrow" src={arrow} />
+                  <img className={"arrow" + flipped} src={arrow} />
                   {this.props.value}
                 </div>;
     }
@@ -206,10 +207,10 @@ class Columns extends React.Component {
   render() {
     return (
       <div className='row columns'>
-        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("applicant")} value={"Applicant"}/>}
-        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("status")} status={true} value={"Status"}/>}
-        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("major")} value={"Major"}/>}
-        {<Entry column={true} sort={this.props.sorter} onClick={() => this.props.onClick("year")} value={"Year"}/>}
+        {<Entry column={true} sort={this.props.sorter} sign={this.props.sign} onClick={() => this.props.onClick("applicant")} value={"Applicant"}/>}
+        {<Entry column={true} sort={this.props.sorter} sign={this.props.sign} onClick={() => this.props.onClick("status")} status={true} value={"Status"}/>}
+        {<Entry column={true} sort={this.props.sorter} sign={this.props.sign} onClick={() => this.props.onClick("major")} value={"Major"}/>}
+        {<Entry column={true} sort={this.props.sorter} sign={this.props.sign} onClick={() => this.props.onClick("year")} value={"Year"}/>}
       </div>
     );
   }
@@ -223,6 +224,7 @@ class App extends React.Component {
     this.state = {
       items: [],
       sortBy: "applicant",
+      sign: 1,
       columns: ["major", "year"],
       hidden: [],
       collapse: true,
@@ -279,11 +281,13 @@ class App extends React.Component {
 
       const sorter = this.state.sortBy;
       const coll = this.state.collapse;
+      const signed = this.state.sign;
       newState.sort(appSort(sorter));
       const cols = this.state.columns.slice();
       this.setState({
         items: newState,
         sortBy: sorter,
+        sign: signed,
         columns: cols,
         hidden: newHidden,
         collapse: coll
@@ -313,10 +317,12 @@ class App extends React.Component {
     let newHides = this.state.hidden.slice();
     const sorter = this.state.sortBy;
     const coll = !this.state.collapse;
+    const signed = this.state.sign;
     const cols = this.state.columns.slice();
     this.setState({
       items: newItems,
       sortBy: sorter,
+      sign: signed,
       columns: cols,
       hidden: newHides,
       collapse: coll
@@ -338,9 +344,11 @@ class App extends React.Component {
     newHides.sort(sortFunc)
     const cols = this.state.columns.slice();
     const coll = this.state.collapse;
+    const signed = this.state.sign;
     this.setState({
       items: newItems,
       sortBy: sorter,
+      sign: signed,
       columns: cols,
       hidden: newHides,
       collapse: coll,
@@ -358,6 +366,7 @@ class App extends React.Component {
     item.hide = true;
 
     const sorter = this.state.sortBy;
+    const signed = this.state.sign;
     const sortFunc = appSort(sorter);
     newItems.sort(sortFunc);
     newHides.sort(sortFunc)
@@ -366,6 +375,7 @@ class App extends React.Component {
     this.setState({
       items: newItems,
       sortBy: sorter,
+      sign: signed,
       columns: cols,
       hidden: newHides,
       collapse: coll,
@@ -379,25 +389,33 @@ class App extends React.Component {
     const coll = this.state.collapse;
     newItems.sort(appSort(sorter));
     const cols = this.state.columns.slice();
+    const signed = this.state.sign;
     const hid = this.state.hidden;
     this.setState({
       items: newItems,
       sortBy: sorter,
+      sign: signed,
       columns: cols,
       hidden: hid,
       collapse: coll
     });
   }
 
+  //uppercase for ascending sort, lowercase for descending sort
   columnClick(value) {
     let newItems = this.state.items.slice();
-    newItems.sort(appSort(value));
+    let signed = this.state.sign;
+    if (value === this.state.sortBy) {
+      signed = -1 * signed;
+    }
+    newItems.sort(appSort(value, signed));
     const cols = this.state.columns.slice();
     const hid = this.state.hidden;
     const coll = this.state.collapse;
     this.setState({
       items: newItems,
       sortBy: value,
+      sign: signed,
       columns: cols,
       hidden: hid,
       collapse: coll
@@ -408,9 +426,18 @@ class App extends React.Component {
     return (
         <div className='app'>
           <div className='table'>
-            {<Columns onClick={(v) => this.columnClick(v)} sorter={this.state.sortBy}/>}
+            {<Columns
+              onClick={(v) => this.columnClick(v)}
+              sorter={this.state.sortBy}
+              sign={this.state.sign}
+              />}
             {this.state.items.map((item, i) => {
-              return <Row info={item} onClick={() => this.starClick(i)} onEyeClick={() => this.eyeClick(i)} onStatusClick={(status) => this.statusClick(status, i)}/>; //for iteration: could include "fields" prop w list of columns and adapt info into a string dictionary
+              return <Row
+                        info={item}
+                        onClick={() => this.starClick(i)}
+                        onEyeClick={() => this.eyeClick(i)}
+                        onStatusClick={(status) => this.statusClick(status, i)}
+                      />;
             })}
             <Hider count={this.state.hidden.length} onClick={() => this.hiddenClick()} collapse={this.state.collapse}/>
             {this.state.hidden.map((item, i) => {
@@ -422,7 +449,9 @@ class App extends React.Component {
   }
 }
 
-function appSort(sorter){
+//if recent = sorter, negate the state
+//add state to function. though this isnt a react component
+function appSort(sorter, sign){
   return function (a, b) {
     if ((a.star === true) && (b.star !== true)) {
       return -1;
@@ -437,22 +466,22 @@ function appSort(sorter){
         nameA = nameA.replace(/\s+/g, '');
         nameB = nameB.replace(/\s+/g, '');
         if (statMap[nameA] < statMap[nameB])
-          return -1;
+          return -1 * sign;
         if (statMap[nameA] > statMap[nameB])
-          return 1;
+          return 1 * sign;
         return 0;
       case 'year':
         const yearMap = {freshman: 0, sophomore: 1, junior: 2, senior: 4};
         if (yearMap[nameA] < yearMap[nameB])
-          return -1;
+          return -1 * sign;
         if (yearMap[nameA] > yearMap[nameB])
-          return 1;
+          return 1 * sign;
         return 0;
       default:
         if (nameA < nameB)
-          return -1;
+          return -1 * sign;
         if (nameA > nameB)
-          return 1;
+          return 1 * sign;
         return 0;
     }
   }
