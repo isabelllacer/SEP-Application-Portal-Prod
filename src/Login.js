@@ -47,11 +47,15 @@ class Login extends React.Component {
 
   render() {
     if (this.state.success) {
-      return (<HashRouter><Redirect to='/' /></HashRouter>);
+      return (<HashRouter>
+        <div>
+          <Redirect to="/"/>
+          <Route path="/" component={Main}/>
+        </div>
+        </HashRouter>);
     }
     const attempt = this.state.attempt ? "bad" : "";
     return (
-      <HashRouter>
         <div className="background">
           <div className="modal">
             <div className="logo">
@@ -81,7 +85,6 @@ class Login extends React.Component {
             </form>
           </div>
         </div>
-      </HashRouter>
     );
   }
 }
