@@ -52,7 +52,7 @@ class Login extends React.Component {
     this.setState({
       username: newUsername,
       password: newPassword,
-      attempt: attempt,
+      attempt: true,
       success: succ,
       authFirebaseListener: listener
     });
@@ -70,7 +70,7 @@ class Login extends React.Component {
       self.setState({
         username: newUsername,
         password: newPassword,
-        attempt: false,
+        attempt: true,
         success: success,
         authFirebaseListener: listener
       });
@@ -93,7 +93,7 @@ class Login extends React.Component {
     }
 
     const attempt = this.state.attempt ? "bad" : "";
-    console.log("Usual render")
+    console.log(attempt);
     return (
         <div className="background">
           <div className="modal">
