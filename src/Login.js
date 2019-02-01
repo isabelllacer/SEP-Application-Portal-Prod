@@ -40,19 +40,26 @@ class Login extends React.Component {
   */
 
   handleSubmit() {
-    let attempt = this.state.attempt;
-    this.state.authFirebaseListener = firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch(function(error) {
-      console.log(error)
-      attempt = true;
-    });
+    let self = this;
     const newUsername = this.state.username;
     const newPassword = this.state.password;
     const succ = this.state.success;
+    const att = this.state.attempt;
     const listener = this.state.authFirebaseListener;
+    this.state.authFirebaseListener = firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch(function(error) {
+      console.log(error)
+      self.setState({
+        username: newUsername,
+        password: newPassword,
+        attempt: true,
+        success: succ,
+        authFirebaseListener: listener
+      });
+    });
     this.setState({
       username: newUsername,
       password: newPassword,
-      attempt: true,
+      attempt: false,
       success: succ,
       authFirebaseListener: listener
     });
@@ -66,15 +73,16 @@ class Login extends React.Component {
       const success = true;
       const newUsername = self.state.username;
       const newPassword = self.state.password;
+      const newAttempt = self.state.attempt;
       const listener = self.state.authFirebaseListener;
       self.setState({
         username: newUsername,
         password: newPassword,
-        attempt: true,
+        attempt: newAttempt,
         success: success,
         authFirebaseListener: listener
       });
-      }
+    }
     });
   }
 
