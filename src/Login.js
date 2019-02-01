@@ -30,16 +30,20 @@ class Login extends React.Component {
 
   handleSubmit() {
     //login, if successful redirect
+    console.log("Proper submit called");
+    let self = this.state;
     firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch(function(error) {
       console.log(error)
-      this.state.attempt = true;
+      self.attempt = true;
     });
   }
 
+  //component did mount not good for detecting logged in because need re-render to trigger
   componentDidMount() {
     let self = this;
     firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
+      console.log("Logged in")
       self.state.success = true;
       }
     });
@@ -77,11 +81,9 @@ class Login extends React.Component {
                 value={this.state.Password}
                 onChange={this.handleInputChange} />
               <br />
-              <input
-                type="submit"
+              <div
                 className="submit"
-                value="SUBMIT"
-                onClick={() => this.handleSubmit()} />
+                onClick={() => this.handleSubmit()} >SUBMIT</div>
             </form>
           </div>
         </div>

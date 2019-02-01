@@ -86,8 +86,8 @@ class Entry extends React.Component {
        face = require('./pictures/' + this.props.value.replace(/\s+/g, '-').toLowerCase()+'.jpg')
       }
       catch (e) {
-       console.log('Error in retrieving photo');
-       console.log(e)
+       //console.log('Error in retrieving photo');
+       //console.log(e)
       }
       return (
           <div className='applicant'>
@@ -146,8 +146,8 @@ class HiddenApplicant extends React.Component {
      face = require('./pictures/' + this.props.value.replace(/\s+/g, '-').toLowerCase()+'.jpg')
     }
     catch (e) {
-     console.log('Error in retrieving photo');
-     console.log(e)
+     //console.log('Error in retrieving photo');
+     //console.log(e)
     }
     return (
       <div className='applicant'>
