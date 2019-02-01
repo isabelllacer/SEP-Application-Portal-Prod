@@ -118,7 +118,7 @@ class Login extends React.Component {
               <br />
               <div
                 className="submit"
-                onClick={() => this.handleSubmit()} >SUBMIT</div>
+                onClick={() => this.handleSubmit()} ><div>SUBMIT</div></div>
             </form>
           </div>
         </div>

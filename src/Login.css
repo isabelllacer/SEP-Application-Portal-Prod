@@ -32,6 +32,9 @@ form {
   border: 2px solid #080649;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .submit:hover {
