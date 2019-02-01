@@ -12,10 +12,10 @@ class Main extends React.Component {
   }
 
   componentCleanup() {
-    firebase.auth().signOut().then(function() {
-    }, function(error) {
-      console.error('Sign Out Error', error);
-    });
+    //firebase.auth().signOut().then(function() {
+    //}, function(error) {
+    //  console.error('Sign Out Error', error);
+    //});
   }
 
   componentDidMount(){

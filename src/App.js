@@ -249,11 +249,8 @@ class App extends React.Component {
   //OR retrieve all info here and pass entire item to view. maybe bad bc wont
   //want full list of items in the sidebar in view
   componentDidMount() {
-    firebase.auth().signInWithEmailAndPassword("isabelllacer@berkeley.edu", "123456").catch(function(error) {
-      console.log(error)
-    });
 
-    const itemsRef = firebase.database().ref('applicants');
+    const itemsRef = firebase.database().ref();
     itemsRef.on('value', (snapshot) => {
       let items = snapshot.val();
       let newState = [];
@@ -268,6 +265,7 @@ class App extends React.Component {
 
       for (let item in items) {
         if (hidden.includes("" + item)) {
+          const stat = items[item].status || "Pending";
           newHidden.push({
             id: item,
             applicant: items[item].applicant,
@@ -279,10 +277,11 @@ class App extends React.Component {
           });
         } else {
           const starry = starred.includes(("" + item));
+          const stat = items[item].status || "Pending";
           newState.push({
             id: item,
             applicant: items[item].applicant,
-            status: items[item].status,
+            status: stat,
             major: items[item].major,
             year: items[item].year,
             star: starry,
@@ -290,8 +289,6 @@ class App extends React.Component {
           });
         }
       }
-
-      var storage = firebase.storage();
 
       const sorter = this.state.sortBy;
       const coll = this.state.collapse;
@@ -311,7 +308,7 @@ class App extends React.Component {
 
   hiddenStatusClick(status, index) {
     const appId = this.state.hidden[index].id;
-    firebase.database().ref('applicants/'+appId).update({
+    firebase.database().ref(appId).update({
       status: status
     });
     //componendidmount resets the stars/hides here... way to prevent
@@ -319,7 +316,7 @@ class App extends React.Component {
 
   statusClick(status, index) {
     const appId = this.state.items[index].id;
-    firebase.database().ref('applicants/'+appId).update({
+    firebase.database().ref(appId).update({
       status: status
     });
   }
