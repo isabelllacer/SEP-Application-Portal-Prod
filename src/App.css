@@ -22,6 +22,7 @@ a {
   display: flex;
   flex-direction: column;
   max-width: 1250px;
+  min-width: 750px;
   margin: 0 auto;
   padding-top: 30px;
   font-size: 17px;

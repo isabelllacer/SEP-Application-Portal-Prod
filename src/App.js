@@ -1,9 +1,7 @@
 import React from 'react';
 import './App.css';
 import firebase from './firebase.js';
-import face1 from './pictures/face1.jpg';
-import face2 from './pictures/face2.jpg';
-import face3 from './pictures/face3.jpg';
+import fill from './pictures/fill.png';
 import gray_star from './pictures/gray_star.png';
 import yellow_star from './pictures/yellow_star.png';
 import gray_eye from './pictures/gray_eye.png';
@@ -83,7 +81,7 @@ class Entry extends React.Component {
 
   render() {
     if (this.props.applicant) {
-      let face = face2;
+      let face = fill;
       try {
        face = require('./pictures/' + this.props.value.replace(/\s+/g, '-').toLowerCase()+'.jpg')
       }
@@ -143,13 +141,21 @@ class HiddenApplicant extends React.Component {
   }
 
   render() {
+    let face = fill;
+    try {
+     face = require('./pictures/' + this.props.value.replace(/\s+/g, '-').toLowerCase()+'.jpg')
+    }
+    catch (e) {
+     console.log('Error in retrieving photo');
+     console.log(e)
+    }
     return (
       <div className='applicant'>
         <div className='head_container'>
           <div className="actions_container">
             <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
           </div>
-          <img className='headshot' src={face1}/>
+          <img className='headshot' src={face}/>
         </div>
         <div>{this.props.value}</div>
       </div>

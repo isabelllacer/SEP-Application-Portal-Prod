@@ -1,8 +1,7 @@
 import React from 'react';
 import './View.css';
 import firebase from './firebase.js';
-import face2 from './pictures/face2.jpg';
-import face3 from './pictures/face3.jpg';
+import fill from './pictures/fill.png';
 import pencil from './pictures/black_pencil.png';
 import eye from './pictures/black_eye.png';
 import { Link } from 'react-router-dom';
@@ -434,7 +433,7 @@ class View extends React.Component {
   }
 
   render() {
-    let face = face2;
+    let face = fill;
     try {
      face = require('./pictures/' + this.state.appInfo.applicant.replace(/\s+/g, '-').toLowerCase()+'.jpg')
     }
