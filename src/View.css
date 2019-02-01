@@ -141,7 +141,6 @@ body {
 }
 
 .score {
-  margin: auto 20px;
   border-radius: 10px;
   padding: 5px 12px;
   font-size: 11px;
@@ -149,6 +148,40 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+
+.score:hover {
+  opacity:0.8;
+}
+
+.scoreContainer {
+  position: relative;
+  margin: auto 20px;
+}
+
+.optContainer {
+  position: absolute;
+  top: 46px;
+  font-size: 22px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.scoreOpt {
+  width: 100%;
+  text-align: center;
+  padding: 4px 0px;
+  background-color: white;
+  border-top: 1px solid #F6F6F6;
+  cursor: pointer;
+}
+
+.scoreOpt:hover {
+  background-color: #E0E0E0;
 }
 
 .filler {

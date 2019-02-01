@@ -8,32 +8,38 @@ import pencil from './pictures/black_pencil.png';
 import eye from './pictures/black_eye.png';
 import { Link } from 'react-router-dom';
 
+class SubscoreBox extends React.Component {
+  render() {
+  let color;
+  switch (this.props.score + '') {
+    case '5':
+      color = 'five';
+      break;
+    case '4':
+      color = 'four';
+      break;
+    case '3':
+      color = 'three';
+      break;
+    case '2':
+      color = 'two';
+      break;
+    default:
+      color = 'one';
+    }
+
+    return <div className={"subscore sub" + color}>
+      <div className="subnumber">{this.props.score}</div>
+      <div>Score</div>
+    </div> ;
+  }
+}
+
 class Subquestion extends React.Component {
   render() {
     const score = this.props.score || 0;
-    let color;
-    switch (score + '') {
-      case '5':
-        color = 'five';
-        break;
-      case '4':
-        color = 'four';
-        break;
-      case '3':
-        color = 'three';
-        break;
-      case '2':
-        color = 'two';
-        break;
-      default:
-        color = 'one';
-    }
-
     const scoreBox = score !== 0 ?
-      <div className={"subscore sub" + color}>
-        <div className="subnumber">{this.props.score}</div>
-        <div>Score</div>
-      </div> :
+      <SubscoreBox score={score}/>:
       <div></div>;
 
     const subtitle = this.props.subtitle || "";
@@ -53,6 +59,64 @@ class Subquestion extends React.Component {
   }
 }
 
+class ScoreBox extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      active: false
+    }
+  }
+
+  scoreClick() {
+    const newActive = !this.state.active;
+    this.setState({
+      active: newActive
+    });
+  }
+
+  listClick(option) {
+      this.scoreClick();
+      this.props.onClick(option);
+  }
+
+  render() {
+  let color;
+  switch (this.props.score + '') {
+    case '5':
+      color = 'five';
+      break;
+    case '4':
+      color = 'four';
+      break;
+    case '3':
+      color = 'three';
+      break;
+    case '2':
+      color = 'two';
+      break;
+    default:
+      color = 'one';
+    }
+
+    const options = ["5", "4", "3", "2", "1"];
+    const show = this.state.active ? "active" : "inactive";
+
+    return <div className="scoreContainer">
+          <div className={"score " + color} onClick={() => this.scoreClick()}>
+            <div className="number">{this.props.score}</div>
+            <div>Score</div>
+          </div>
+          <div className={"optContainer " + show}>
+          {options.map((option) => {
+            return (this.props.score + "") !== option ?
+              <div className={"scoreOpt "} onClick={() => this.listClick(option)}>{option}</div> :
+              <div></div>;
+          })}
+          </div>
+        </div>;
+  }
+}
+
 /* Cases:
 Subtitle Scores
 Notes Format (No Title Score)
@@ -61,28 +125,8 @@ Interviwers Slot
 class Questions extends React.Component {
   render() {
     const score = this.props.score || 0;
-    let color;
-    switch (score + '') {
-      case '5':
-        color = 'five';
-        break;
-      case '4':
-        color = 'four';
-        break;
-      case '3':
-        color = 'three';
-        break;
-      case '2':
-        color = 'two';
-        break;
-      default:
-        color = 'one';
-    }
     const scoreBox = score !== 0 ?
-      <div className={"score " + color}>
-        <div className="number">{this.props.score}</div>
-        <div>Score</div>
-      </div> :
+    <ScoreBox score={score} onClick={(option) => this.props.scoreClick(option)}/> :
       <div className="filler"></div>;
 
       const interviewers = this.props.interviewers || [];
@@ -321,6 +365,22 @@ class View extends React.Component {
     });
   }
 
+  scoreClick(option, index) {
+    //firebase.database().ref('applicants/'+this.state.appId).update({
+    //  status: option
+    //});
+    //set qs at given index's score to option
+    let newQs = this.state.qs.slice();
+    newQs[index].score = option;
+    this.setState({
+      appId: this.state.appId,
+      status: this.state.status,
+      appInfo: this.state.appInfo,
+      qs: newQs,
+      appList: this.state.appList
+    });
+  }
+
   statusClick(option) {
     firebase.database().ref('applicants/'+this.state.appId).update({
       status: option
@@ -343,8 +403,14 @@ class View extends React.Component {
           })}
         </div>
         <div className="rightCol">
-        {this.state.qs.map((question) => {
-          return <Questions title={question.title} score={question.score} interviewers={question.interviewers} subs={question.subs}/>;
+        {this.state.qs.map((question, index) => {
+          return <Questions
+            title={question.title}
+            score={question.score}
+            interviewers={question.interviewers}
+            subs={question.subs}
+            scoreClick={(option) => this.scoreClick(option, index)}
+            />;
         })}
         </div>
       </div>
