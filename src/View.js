@@ -323,7 +323,8 @@ class View extends React.Component {
         {subtitle: `Tell us about a pressing societal problem you care about. (250 words max)`,
         content: app.q3
       }]});
-
+      delete app['interview'];
+      delete app['status'];
       this.setState({
         appId: this.props.match.params.id,
         status: stat,
