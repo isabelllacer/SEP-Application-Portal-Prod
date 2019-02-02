@@ -287,11 +287,7 @@ class View extends React.Component {
     var app = {};
     let newList = [];
 
-    firebase.auth().signInWithEmailAndPassword("isabelllacer@berkeley.edu", "123456").catch(function(error) {
-      console.log(error)
-    });
-
-    const itemsRef = firebase.database().ref('applicants');
+    const itemsRef = firebase.database().ref();
     itemsRef.once('value', (snapshot) => {
       let items = snapshot.val();
       for (let item in items) {
@@ -302,16 +298,12 @@ class View extends React.Component {
       }
     });
 
-    const appRef = firebase.database().ref('applicants/'+this.props.match.params.id);
+    const appRef = firebase.database().ref(this.props.match.params.id);
     appRef.on('value', (snapshot) => {
       app = snapshot.val();
 
       const stat = app["status"];
       delete app.status;
-      app["gpa"] = "4.0";
-      app["resume"] = "https://drive.google.com/open?id=1895ccUJdAmlJzZyo0AIFP27NH9Bjmdn7";
-      app["email"] = "apalmer@berkeley.edu";
-      app["phone"] = "4085504766";
 
       let newQs = [];
       newQs.push({
@@ -324,64 +316,16 @@ class View extends React.Component {
 
       newQs.push({
         title: "Application Questions",
-        score: 5,
+        score: 0,
         subs: [{subtitle: "List your other time commitments for the semester.",
-        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa.`
+        content: app.q1
         },
         {subtitle: "Tell us about your interests.",
-        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa.`
+        content: app.q2
         },
         {subtitle: `Why do you want to be in Sigma Eta Pi? How will you
           contribute to the organization? (250 words or less)`,
-        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa. Fusce nec nunc ante. Nam feugiat elit
-          justo, ac eleifend urna dapibus vel. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Mauris vehicula, erat ut mattis volutpa.`
-      }]});
-
-      newQs.push({
-        title: "Professional Interview",
-        score: 2,
-        interviewers: ["LeAnne", "Isabel", "Alex"],
-        subs: [{subtitle: "List your other time commitments for the semester.",
-        score: 5,
-        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa.`
-        },
-        {subtitle: "Tell us about your interests.",
-        score: 4,
-        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa.`
-        },
-        {subtitle: `Why do you want to be in Sigma Eta Pi? How will you
-          contribute to the organization? (250 words or less)`,
-        score: 3,
-        content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa. Fusce nec nunc ante. Nam feugiat elit
-          justo, ac eleifend urna dapibus vel. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Mauris vehicula, erat ut mattis volutpa.`
+        content: app.q3
       }]});
 
       this.setState({
@@ -427,7 +371,7 @@ class View extends React.Component {
   }
 
   statusClick(option) {
-    firebase.database().ref('applicants/'+this.state.appId).update({
+    firebase.database().ref(this.state.appId).update({
       status: option
     });
   }
@@ -452,6 +396,9 @@ class View extends React.Component {
           </div>
           <Status status={this.state.status} onClick={(option) => this.statusClick(option)}/>
           {Object.keys(this.state.appInfo).map((field) => {
+            if ((field === "q1") || (field === "q2") || (field === "q3")) {
+              return <div></div>;
+            }
             return <Detail category={field} value={this.state.appInfo[field]}/>;
           })}
         </div>
