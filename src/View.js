@@ -302,8 +302,7 @@ class View extends React.Component {
     appRef.on('value', (snapshot) => {
       app = snapshot.val();
 
-      const stat = app["status"];
-      delete app.status;
+      const stat = app.status || "Pending";
       const newScore = app.appScore || 0;
       let newQs = [];
       newQs.push({
