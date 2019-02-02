@@ -303,14 +303,12 @@ class View extends React.Component {
       app = snapshot.val();
 
       const stat = app.status || "Pending";
+      const newNotes = app.notes || "None";
       const newScore = app.appScore || 0;
       let newQs = [];
       newQs.push({
         title: "Notes",
-        subs: [{content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce nec nunc ante. Nam feugiat elit justo, ac eleifend urna dapibus
-          vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          vehicula, erat ut mattis volutpa. `
+        subs: [{content: newNotes
       }]});
 
       newQs.push({
@@ -319,11 +317,10 @@ class View extends React.Component {
         subs: [{subtitle: "List your other time commitments for the semester.",
         content: app.q1
         },
-        {subtitle: "Tell us about your interests.",
+        {subtitle: "Tell us about a time you took initiative. What was your final impact? (250 words max)",
         content: app.q2
         },
-        {subtitle: `Why do you want to be in Sigma Eta Pi? How will you
-          contribute to the organization? (250 words or less)`,
+        {subtitle: `Tell us about a pressing societal problem you care about. (250 words max)`,
         content: app.q3
       }]});
 
