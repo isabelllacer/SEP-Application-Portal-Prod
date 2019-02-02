@@ -154,7 +154,7 @@ Interviwers Slot
 class Questions extends React.Component {
   render() {
     const score = this.props.score || 0;
-    const scoreBox = score !== 0 ?
+    const scoreBox = this.props.title.toLowerCase() !== "notes" ?
     <ScoreBox score={score} onClick={(option) => this.props.scoreClick(option)}/> :
       <div className="filler"></div>;
 
@@ -304,7 +304,7 @@ class View extends React.Component {
 
       const stat = app["status"];
       delete app.status;
-
+      const newScore = app.appScore || 0;
       let newQs = [];
       newQs.push({
         title: "Notes",
@@ -316,7 +316,7 @@ class View extends React.Component {
 
       newQs.push({
         title: "Application Questions",
-        score: 0,
+        score: newScore,
         subs: [{subtitle: "List your other time commitments for the semester.",
         content: app.q1
         },
@@ -339,7 +339,7 @@ class View extends React.Component {
   }
 
   subscoreClick(option, i1, i2) {
-    //firebase.database().ref('applicants/'+this.state.appId).update({
+    //firebase.database().ref(this.state.appId).update({
     //  status: option
     //});
     //set qs at given index's score to option
@@ -355,10 +355,9 @@ class View extends React.Component {
   }
 
   scoreClick(option, index) {
-    //firebase.database().ref('applicants/'+this.state.appId).update({
-    //  status: option
-    //});
-    //set qs at given index's score to option
+    firebase.database().ref(this.state.appId).update({
+      appScore: option
+    });
     let newQs = this.state.qs.slice();
     newQs[index].score = option;
     this.setState({
