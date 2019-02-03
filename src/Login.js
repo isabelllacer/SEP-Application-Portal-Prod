@@ -86,9 +86,11 @@ class Login extends React.Component {
     });
   }
 
+  /*
   componentWillUnmount() {
    this.state.authFirebaseListener && this.state.authFirebaseListener() // Unlisten it by calling it as a function
   }
+  */
 
   render() {
     if (this.state.success) {

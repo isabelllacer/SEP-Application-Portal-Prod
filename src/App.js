@@ -81,14 +81,7 @@ class Entry extends React.Component {
 
   render() {
     if (this.props.applicant) {
-      let face = fill;
-      try {
-       face = require('./pictures/' + this.props.value.replace(/\s+/g, '-').toLowerCase()+'.jpg')
-      }
-      catch (e) {
-       //console.log('Error in retrieving photo');
-       //console.log(e)
-      }
+      let face = this.props.picture !== "" ? this.props.picture : fill;
       return (
           <div className='applicant'>
             <div className='head_container'>
@@ -141,21 +134,14 @@ class HiddenApplicant extends React.Component {
   }
 
   render() {
-    let face = fill;
-    try {
-     face = require('./pictures/' + this.props.value.replace(/\s+/g, '-').toLowerCase()+'.jpg')
-    }
-    catch (e) {
-     //console.log('Error in retrieving photo');
-     //console.log(e)
-    }
+    let face = this.props.picture !== "" ? this.props.picture : fill;
     return (
       <div className='applicant'>
         <div className='head_container'>
           <div className="actions_container">
             <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
           </div>
-          <img className='headshot' src={face}/>
+          <img className='headshot' src={fill}/>
         </div>
         <div>{this.props.value}</div>
       </div>
@@ -172,7 +158,7 @@ class HiddenRow extends React.Component {
     }
     return (
       <div key={this.props.info.id} className={'row'}>
-        {<HiddenApplicant onEyeClick={this.props.onEyeClick} value={this.props.info.applicant}/>}
+        {<HiddenApplicant picture={this.props.info.picture} onEyeClick={this.props.onEyeClick} value={this.props.info.applicant}/>}
         {<Entry status={true} onClick={(option) => this.props.onStatusClick(option)} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
@@ -186,7 +172,7 @@ class Row extends React.Component {
     const starred = this.props.info.star ? ' starred' : '';
     return (
       <div key={this.props.info.id} className={'row' + starred}>
-        {<Entry applicant={true} id={this.props.info.id} onClick={() => this.props.onClick()} onEyeClick={this.props.onEyeClick} star={this.props.info.star} value={this.props.info.applicant}/>}
+        {<Entry applicant={true} picture={this.props.info.picture} id={this.props.info.id} onClick={() => this.props.onClick()} onEyeClick={this.props.onEyeClick} star={this.props.info.star} value={this.props.info.applicant}/>}
         {<Entry status={true} onClick={(option) => this.props.onStatusClick(option)} colored={true} value={this.props.info.status}/>}
         {<Entry value={this.props.info.major}/>}
         {<Entry value={this.props.info.year}/>}
@@ -241,7 +227,7 @@ class App extends React.Component {
       sign: 1,
       columns: ["major", "year"],
       hidden: [],
-      collapse: true,
+      collapse: true
     }
   }
 
@@ -249,6 +235,22 @@ class App extends React.Component {
   //OR retrieve all info here and pass entire item to view. maybe bad bc wont
   //want full list of items in the sidebar in view
   componentDidMount() {
+
+    const images = importAll(require.context('./pictures/applicantPics', false, /\.(png|jpe?g|svg)$/));
+    const regex = /-\s[a-zA-Z]+\s[a-zA-Z]+/g; //matches applicant name in picture title
+
+    const newPics = {};
+
+    images.map((path) => {
+      const matcher = path.match(regex);
+      if (matcher) {
+        const found = matcher.length !== 0 ? matcher[0].slice(2) : "";
+        newPics[found] = path;
+        return;
+      }
+      console.log("Match not found for " + path);
+      return;
+    });
 
     const itemsRef = firebase.database().ref();
     itemsRef.on('value', (snapshot) => {
@@ -264,8 +266,10 @@ class App extends React.Component {
       });
 
       for (let item in items) {
+        const newPic = newPics[items[item].applicant] || "";
+        const stat = items[item].status || "Pending";
+
         if (hidden.includes("" + item)) {
-          const stat = items[item].status || "Pending";
           newHidden.push({
             id: item,
             applicant: items[item].applicant,
@@ -274,10 +278,10 @@ class App extends React.Component {
             year: items[item].year,
             star: false,
             hide: true,
+            picture: newPic
           });
         } else {
           const starry = starred.includes(("" + item));
-          const stat = items[item].status || "Pending";
           newState.push({
             id: item,
             applicant: items[item].applicant,
@@ -286,6 +290,7 @@ class App extends React.Component {
             year: items[item].year,
             star: starry,
             hide: false,
+            picture: newPic
           });
         }
       }
@@ -435,7 +440,8 @@ class App extends React.Component {
 
   render() {
     //this is an array of strings which are paths you can put directly into img src
-    const images = importAll(require.context('./pictures', false, /\.(png|jpe?g|svg)$/));
+    //TODO: Move this into component didmount, put images array into state, do regex matching here
+    //add more padding to right side of view
     return (
         <div className='app'>
           <div className='table'>
