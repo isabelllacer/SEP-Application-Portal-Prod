@@ -158,14 +158,11 @@ class Questions extends React.Component {
     <ScoreBox score={score} onClick={(option) => this.props.scoreClick(option)}/> :
       <div className="filler"></div>;
 
-      const interviewers = this.props.interviewers || [];
-      const interview = interviewers.length > 0 ?
+      const interviewers = this.props.interviewers || "";
+      const interview = interviewers !== "" ?
       <div className="interviewers">
         <span className="bolded">Interviewers: </span>
-        {interviewers.map((i, index) => {
-          const end = index === interviewers.length - 1 ? "" : ", ";
-          return i + end;
-        })}
+        {interviewers}
       </div> :
       <div></div>;
 
@@ -323,8 +320,21 @@ class View extends React.Component {
         {subtitle: `Tell us about a pressing societal problem you care about. (250 words max)`,
         content: app.q3
       }]});
+
+      const newInter = app.interview || 0;
+      if (newInter !== 0) {
+        //need to add overall notes section
+        newQs.push({
+          title: "Professional Interview",
+          score: newInter.score,
+          interviewers: newInter.interviewers,
+          subs: newInter.questions});
+      }
+
+      //IMPORTANT clean up so we can iterate on left column later
       delete app['interview'];
       delete app['status'];
+
       this.setState({
         appId: this.props.match.params.id,
         status: stat,
