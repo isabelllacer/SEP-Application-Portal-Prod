@@ -434,6 +434,8 @@ class App extends React.Component {
   }
 
   render() {
+    //this is an array of strings which are paths you can put directly into img src
+    const images = importAll(require.context('./pictures', false, /\.(png|jpe?g|svg)$/));
     return (
         <div className='app'>
           <div className='table'>
@@ -458,6 +460,10 @@ class App extends React.Component {
         </div>
     );
   }
+}
+
+function importAll(r) {
+  return r.keys().map(r);
 }
 
 //if recent = sorter, negate the state
