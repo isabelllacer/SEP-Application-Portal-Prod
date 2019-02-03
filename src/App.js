@@ -238,30 +238,17 @@ class App extends React.Component {
 
     const images = importAll(require.context('./pictures/applicantPics', false, /\.(png|jpe?g|JPE?G|svg)$/));
     const regex = /-\s[a-zA-Z]+(\s[a-zA-Z\(\)]+)*\s[a-zA-Z-]+\./g; //matches applicant name in picture title
-    console.log(images);
     const newPics = {};
-    const cantfind = [];
-
-    const tester = "/static/media/SEP - Nachiket (Nach) Mehta.ed2e3454.png";
-    console.log(regex.test(tester));
 
     images.map((path) => {
       const matcher = path.match(regex);
       if (matcher) {
         const found = matcher.length !== 0 ? matcher[0].slice(2, matcher[0].length - 1) : "";
-        if (found === "") {
-          cantfind.push(path);
-        }
         newPics[found] = path;
         return;
       }
-      cantfind.push(path);
       return;
     });
-    console.log("THE CANT FIND");
-    console.log(cantfind);
-    console.log("ALL PICS");
-    console.log(newPics);
 
     const itemsRef = firebase.database().ref();
     itemsRef.on('value', (snapshot) => {
@@ -276,12 +263,8 @@ class App extends React.Component {
         return item.star ? "" + item.id : "";
       });
 
-      console.log(newPics);
       for (let item in items) {
         const newPic = newPics[items[item].applicant] || "";
-        if (newPic === "") {
-          console.log(items[item].applicant);
-        }
         const stat = items[item].status || "Pending";
 
         if (hidden.includes("" + item)) {

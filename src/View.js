@@ -272,6 +272,7 @@ class View extends React.Component {
         email: "",
         phone: ""
       },
+      face: fill,
       qs: [],
       appList: []
     }
@@ -298,6 +299,23 @@ class View extends React.Component {
     const appRef = firebase.database().ref(this.props.match.params.id);
     appRef.on('value', (snapshot) => {
       app = snapshot.val();
+
+      const images = importAll(require.context('./pictures/applicantPics', false, /\.(png|jpe?g|JPE?G|svg)$/));
+      const regex = /-\s[a-zA-Z]+(\s[a-zA-Z\(\)]+)*\s[a-zA-Z-]+\./g; //matches applicant name in picture title
+
+      //if match from regex equals applicant name, use that path
+      let face = fill;
+      images.map((path) => {
+        const matcher = path.match(regex);
+        if (matcher) {
+          const found = matcher.length !== 0 ? matcher[0].slice(2, matcher[0].length - 1) : "";
+          if (found === app.applicant) {
+            face = path;
+          }
+          return;
+        }
+        return;
+      });
 
       const stat = app.status || "Pending";
       const newNotes = app.notes || "None";
@@ -348,6 +366,7 @@ class View extends React.Component {
         appId: this.props.match.params.id,
         status: stat,
         appInfo: app,
+        face: face,
         qs: newQs,
         appList: newList
       });
@@ -392,14 +411,6 @@ class View extends React.Component {
   }
 
   render() {
-    let face = fill;
-    try {
-     face = require('./pictures/' + this.state.appInfo.applicant.replace(/\s+/g, '-').toLowerCase()+'.jpg')
-    }
-    catch (e) {
-     console.log('Error in retrieving photo');
-     console.log(e)
-    }
     return (
       <div className="container">
         <div className="leftCol">
@@ -407,7 +418,7 @@ class View extends React.Component {
             {this.state.appInfo.applicant}
           </div>
           <div className="shot">
-            <img className='headPic' src={face}/>
+            <img className='headPic' src={this.state.face}/>
           </div>
           <Status status={this.state.status} onClick={(option) => this.statusClick(option)}/>
           {Object.keys(this.state.appInfo).map((field) => {
@@ -432,6 +443,10 @@ class View extends React.Component {
       </div>
     );
   }
+}
+
+function importAll(r) {
+  return r.keys().map(r);
 }
 
 export default View;
