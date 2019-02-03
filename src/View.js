@@ -384,6 +384,7 @@ class View extends React.Component {
       appId: this.state.appId,
       status: this.state.status,
       appInfo: this.state.appInfo,
+      face: this.state.face,
       qs: newQs,
       appList: this.state.appList
     });
@@ -399,6 +400,7 @@ class View extends React.Component {
       appId: this.state.appId,
       status: this.state.status,
       appInfo: this.state.appInfo,
+      face: this.state.face,
       qs: newQs,
       appList: this.state.appList
     });
