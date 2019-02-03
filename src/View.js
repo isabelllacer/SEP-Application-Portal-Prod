@@ -324,11 +324,20 @@ class View extends React.Component {
       const newInter = app.interview || 0;
       if (newInter !== 0) {
         //need to add overall notes section
+        const overall = newInter.notes || "";
+        let subqs = newInter.questions;
+        if (overall !== "") {
+          subqs.push({
+            subtitle: "General Notes",
+            content: overall
+          });
+        }
+
         newQs.push({
           title: "Professional Interview",
           score: newInter.score,
           interviewers: newInter.interviewers,
-          subs: newInter.questions});
+          subs: subqs});
       }
 
       //IMPORTANT clean up so we can iterate on left column later
