@@ -424,11 +424,12 @@ class View extends React.Component {
           </div>
           <Status status={this.state.status} onClick={(option) => this.statusClick(option)}/>
           {Object.keys(this.state.appInfo).map((field) => {
-            if ((field === "q1") || (field === "q2") || (field === "q3")) {
+            if ((field === "q1") || (field === "q2") || (field === "q3") || (field === "resume")) {
               return <div></div>;
             }
             return <Detail category={field} value={this.state.appInfo[field]}/>;
           })}
+          <Detail category={"resume"} value={this.state.appInfo["resume"]}/>
         </div>
         <div className="rightCol">
         {this.state.qs.map((question, index) => {
