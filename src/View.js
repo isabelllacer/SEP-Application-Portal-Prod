@@ -65,6 +65,29 @@ class SubscoreBox extends React.Component {
 }
 
 class Subquestion extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      content: ""
+    }
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  componentDidMount() {
+    this.setState({
+      content: this.props.content
+    });
+  }
+
   render() {
     const score = this.props.score || 0;
     const scoreBox = score !== 0 ?
@@ -79,10 +102,22 @@ class Subquestion extends React.Component {
       <div>{this.props.subtitle}</div>
       </div>;
 
+    //<div className={"editContent" + (subtitle === "" ? " bigger" : "")}>{this.props.content}</div>
+    const content = this.props.editMode ?
+      <form>
+      <input
+        name="content"
+        className="inputter editContent"
+        type="text"
+        value={this.state.content}
+        onChange={this.handleInputChange} />
+      </form> :
+      <div className={"content" + (subtitle === "" ? " bigger" : "")}>{this.props.content}</div>;
+
     return (
       <div className="subquestion">
         {subtitleBox}
-        <div className={"content" + (subtitle === "" ? " bigger" : "")}>{this.props.content}</div>
+        {content}
       </div>
     );
   }
@@ -205,7 +240,7 @@ class Questions extends React.Component {
         </div>
         {interview}
         {this.props.subs.map((subq, index) => {
-          return <Subquestion subtitle={subq.subtitle} onClick={(option) => this.props.subscoreClick(option, index)} score={subq.score} content={subq.content}/>;
+          return <Subquestion subtitle={subq.subtitle} editMode={this.state.edit} onClick={(option) => this.props.subscoreClick(option, index)} score={subq.score} content={subq.content}/>;
         })}
       </div>
     );
