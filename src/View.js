@@ -361,6 +361,7 @@ class View extends React.Component {
       //IMPORTANT clean up so we can iterate on left column later
       delete app['interview'];
       delete app['status'];
+      delete app['notes'];
 
       this.setState({
         appId: this.props.match.params.id,
