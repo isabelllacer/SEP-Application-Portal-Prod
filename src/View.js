@@ -97,10 +97,10 @@ class Subquestion extends React.Component {
 
     //<div className={"editContent" + (subtitle === "" ? " bigger" : "")}>{this.props.content}</div>
     const content = this.props.editMode ?
-      <form>
+      <form className="notesForm">
       <textarea
         name="content"
-        className="inputter editContent"
+        className="inputter2 editContent"
         type="text"
         value={this.props.content}
         onChange={this.handleInputChange} />

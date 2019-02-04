@@ -269,6 +269,12 @@ body {
    line-height: 1.4;
 }
 
+.notesForm {
+  width: 96%;
+  margin-left: 14px;
+  margin-top: 0px;
+}
+
 .editContent {
   background-color: white;
   padding: 12px 18px;
@@ -276,11 +282,13 @@ body {
   line-height: 1.4;
 }
 
-.inputter, .inputter:hover, .inputter:focus {
+.inputter2, .inputter2:hover, .inputter2:focus {
   -webkit-appearance: none;
-  border: none;
+  border: 1px solid #E0E0E0;
   width: 100%;
-  font-size: 20px;
+  font: inherit;
+  height: 125px;
+  font-size: 18px;
 }
 
 .subscore {
