@@ -146,18 +146,47 @@ class ScoreBox extends React.Component {
   }
 }
 
-/* Cases:
-Subtitle Scores
-Notes Format (No Title Score)
-Interviwers Slot
+/* Add pencil button, with onClick turns on edit mode, pass to subquestions, hide pencil show save button
+  Add save button, onClick turns off edit mode, pass to subquestions, hide save button show pencil button
+  add state and functions here
 */
 class Questions extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      edit: false
+    }
+  }
+
+  pencilClick() {
+    this.setState({
+      edit: true,
+    });
+  }
+
+  saveClick() {
+    this.setState({
+      edit: false,
+    });
+    //send to firebase in subquestion
+  }
+
   render() {
     const score = this.props.score || 0;
     const section = this.props.title.toLowerCase();
     const scoreBox = (section === "professional interview" ||  section === "group interview")  ?
     <ScoreBox score={score} onClick={(option) => this.props.scoreClick(option)}/> :
       <div className="filler"></div>;
+    let editButton = <div></div>;
+    if (section === "notes") {
+      editButton = this.state.edit === false ?
+      <div className="editContainer" onClick={() => this.pencilClick()}>
+        <img className="editPencil" src={pencil} />
+      </div> :
+      <div className="editContainer" onClick={() => this.saveClick()}>
+        <div className="saveContainer"><div>Save</div></div>
+      </div>;
+    }
 
       const interviewers = this.props.interviewers || "";
       const interview = interviewers !== "" ?
@@ -172,6 +201,7 @@ class Questions extends React.Component {
         <div className="title">
           {scoreBox}
           <div className=""> {this.props.title}</div>
+          {editButton}
         </div>
         {interview}
         {this.props.subs.map((subq, index) => {
@@ -279,9 +309,6 @@ class View extends React.Component {
     }
   }
 
-  //will need to parse out left column info and right column info into state
-  //TODO: nullstate of score but needed eventually
-  //REMEMBER order of Qs matter (currently determined by firebase order)
   componentDidMount() {
     var app = {};
     let newList = [];

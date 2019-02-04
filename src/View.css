@@ -135,11 +135,42 @@ body {
   font-weight: bold;
   font-size: 25px;
   display: flex;
+  position: relative;
   margin: 10px auto;
   padding: 12px 0px;
   width: calc(100%);
   background-color: #E0E0E0;
   align-items: center;
+}
+
+.editContainer {
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+}
+
+.editPencil {
+  height: 20px;
+}
+
+.editContainer:hover {
+  opacity: 0.6;
+}
+
+.saveContainer {
+  border-radius: 10px;
+  padding: 5px 23px;
+  font-size: 20px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #1C3D5B;
+}
+
+.saveContainer:hover {
+  opacity: 0.7;
 }
 
 .score {
