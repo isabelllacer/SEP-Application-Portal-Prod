@@ -67,19 +67,12 @@ class SubscoreBox extends React.Component {
 class Subquestion extends React.Component {
   constructor() {
     super();
-    this.state = {
-      content: ""
-    }
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
+    this.props.handleInputChange(event, this.props.index);
   }
 
   componentDidMount() {
@@ -105,11 +98,11 @@ class Subquestion extends React.Component {
     //<div className={"editContent" + (subtitle === "" ? " bigger" : "")}>{this.props.content}</div>
     const content = this.props.editMode ?
       <form>
-      <input
+      <textarea
         name="content"
         className="inputter editContent"
         type="text"
-        value={this.state.content}
+        value={this.props.content}
         onChange={this.handleInputChange} />
       </form> :
       <div className={"content" + (subtitle === "" ? " bigger" : "")}>{this.props.content}</div>;
@@ -189,21 +182,51 @@ class Questions extends React.Component {
   constructor() {
     super();
     this.state = {
-      edit: false
+      edit: false,
+      subqs: []
     }
   }
 
+  handleInputChange(event, index) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    const editing = this.state.edit;
+    const subs = this.state.subqs.slice();
+    subs[index].content = value;
+    this.setState({
+      edit: editing,
+      subqs: subs
+    });
+  }
+
+  componentDidMount() {
+    const editing = this.state.edit;
+    this.setState({
+      edit: editing,
+      subqs: this.props.subs
+    });
+  }
+
   pencilClick() {
+    const subs = this.state.subqs.slice();
     this.setState({
       edit: true,
+      subqs: subs
     });
   }
 
   saveClick() {
+    const subs = this.state.subqs.slice();
     this.setState({
       edit: false,
+      subqs: subs
+      //send subqs to database
     });
-    //send to firebase in subquestion
+    this.props.notesEdit(subs[0].content);
+    //need to get subquestion value and send to firebase in subquestion
+    //will need to store content in this constructor
   }
 
   render() {
@@ -239,8 +262,8 @@ class Questions extends React.Component {
           {editButton}
         </div>
         {interview}
-        {this.props.subs.map((subq, index) => {
-          return <Subquestion subtitle={subq.subtitle} editMode={this.state.edit} onClick={(option) => this.props.subscoreClick(option, index)} score={subq.score} content={subq.content}/>;
+        {this.state.subqs.map((subq, index) => {
+          return <Subquestion subtitle={subq.subtitle} editMode={this.state.edit} onClick={(option) => this.props.subscoreClick(option, index)} handleInputChange={(e, i) => this.handleInputChange(e, i)} index={index} score={subq.score} content={subq.content}/>;
         })}
       </div>
     );
@@ -446,6 +469,12 @@ class View extends React.Component {
     });
   }
 
+  notesEdit(newNotes) {
+    firebase.database().ref(this.state.appId).update({
+      notes: newNotes
+    });
+  }
+
   subscoreClick(option, i1, i2) {
     //firebase.database().ref(this.state.appId).update({
     //  status: option
@@ -467,7 +496,7 @@ class View extends React.Component {
     firebase.database().ref(this.state.appId).update({
       appScore: option
     });
-    let newQs = this.state.qs.slice();
+    let newQs = this.state.qs.slice(); //may be unnecessary
     newQs[index].score = option;
     this.setState({
       appId: this.state.appId,
@@ -513,6 +542,7 @@ class View extends React.Component {
             subs={question.subs}
             scoreClick={(option) => this.scoreClick(option, index)}
             subscoreClick={(option, i2) => this.subscoreClick(option, index, i2)}
+            notesEdit={(newNotes) => this.notesEdit(newNotes)}
             />;
         })}
         </div>

@@ -276,6 +276,13 @@ body {
   line-height: 1.4;
 }
 
+.inputter, .inputter:hover, .inputter:focus {
+  -webkit-appearance: none;
+  border: none;
+  width: 100%;
+  font-size: 20px;
+}
+
 .subscore {
   border-radius: 10px;
   padding: 3px 9px;
