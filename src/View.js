@@ -154,7 +154,8 @@ Interviwers Slot
 class Questions extends React.Component {
   render() {
     const score = this.props.score || 0;
-    const scoreBox = this.props.title.toLowerCase() !== "notes" ?
+    const section = this.props.title.toLowerCase();
+    const scoreBox = (section === "professional interview" ||  section === "group interview")  ?
     <ScoreBox score={score} onClick={(option) => this.props.scoreClick(option)}/> :
       <div className="filler"></div>;
 
@@ -356,6 +357,14 @@ class View extends React.Component {
           score: newInter.score,
           interviewers: newInter.interviewers,
           subs: subqs});
+      }
+
+      const newChat = app.coffeeChat || 0;
+      if (newChat !== 0) {
+        newQs.push({
+          title: "Coffee Chat",
+          interviewers: newChat.interviewers,
+          subs: [{content: newChat.notes}]});
       }
 
       //IMPORTANT clean up so we can iterate on left column later
