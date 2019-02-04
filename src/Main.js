@@ -32,11 +32,11 @@ class Main extends React.Component {
         <div className='app'>
           <header>
               <div className='wrapper'>
-                <h1><Link to="/">SEP Application Portal</Link></h1>
+                <h1><Link to="/home">SEP Application Portal</Link></h1>
               </div>
           </header>
           <Switch>
-            <Route exact path="/" component={App}/>
+            <Route path="/home" component={App}/>
             <Route name="view" path="/view/:id" component={View}/>
           </Switch>
         </div>

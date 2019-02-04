@@ -96,7 +96,7 @@ class Login extends React.Component {
     if (this.state.success) {
       return (<HashRouter>
         <div>
-          <Redirect to="/"/>
+          <Redirect to="/home"/>
           <Route path="/" component={Main}/>
         </div>
         </HashRouter>);
