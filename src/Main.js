@@ -35,10 +35,8 @@ class Main extends React.Component {
                 <h1><Link to="/home">SEP Application Portal</Link></h1>
               </div>
           </header>
-          <Switch>
-            <Route path="/home" component={App}/>
+            <Route path="/" component={App}/>
             <Route name="view" path="/view/:id" component={View}/>
-          </Switch>
         </div>
     );
   }

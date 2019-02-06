@@ -440,8 +440,9 @@ class App extends React.Component {
     //this is an array of strings which are paths you can put directly into img src
     //TODO: Move this into component didmount, put images array into state, do regex matching here
     //add more padding to right side of view
+    console.log(this.props.location.pathname);
     return (
-        <div className='app'>
+        <div className={this.props.location.pathname == "/home" ? 'app' : 'app inactive'}>
           <div className='table'>
             {<Columns
               onClick={(v) => this.columnClick(v)}
