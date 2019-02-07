@@ -18,13 +18,47 @@ a {
   opacity: inherit;
 }
 
+.optionsBar {
+  display: flex;
+  align-items: center;
+  max-width: 1250px;
+  min-width: 750px;
+  margin: 0 auto;
+  justify-content: flex-start;
+  flex-direction: row;
+  color: #8B8B8B;
+  font-weight: bold;
+  height: 60px;
+}
+
+.dropdownOption {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  position: relative;
+  align-items: center;
+  flex: 1;
+  padding-left: 25px;
+  padding-right: 25px;
+  background-color: white;
+}
+
+.defaultContainerMain {
+  margin: default 20px;
+}
+
+.hideBy {
+  display: flex;
+}
+
+
 .table {
   display: flex;
   flex-direction: column;
   max-width: 1250px;
   min-width: 750px;
   margin: 0 auto;
-  padding-top: 30px;
+  padding-top: 0px;
   font-size: 17px;
 }
 

@@ -9,7 +9,51 @@ import arrow from './pictures/arrow.png';
 import { Link, HashRouter, Route } from 'react-router-dom';
 import View from "./View";
 
-//clicking an option should close dropdown. add onto passed in function
+class Option extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      active: false
+    }
+  }
+
+  editClick() {
+    const newActive = !this.state.active;
+    this.setState({
+      active: newActive
+    });
+  }
+
+  optionClick(option) {
+      this.editClick();
+      this.props.onClick(option);
+  }
+
+  render() {
+    const options = ["Pending", "Next Round", "Bid", "Cut"]; //change to column names
+    const show = this.state.active ? "active" : "inactive";
+
+    return (
+      <div className="dropdownOption">
+        <div className={"defaultContainerMain "} onClick={() => this.editClick()}>
+          <div className="defaultMain">
+            {this.props.default}
+          </div>
+        </div>
+        <div className={"optionContainerMain " + show}>
+          {options.map((opt) => {
+            return opt !== this.props.default?
+            <div className="optionMain" onClick={() => this.optionClick(opt)}>
+              {opt}
+            </div> :
+            <div></div>;
+          })}
+        </div>
+      </div>
+    );
+  }
+}
+
 class Status extends React.Component {
   constructor() {
     super();
@@ -436,11 +480,15 @@ class App extends React.Component {
     });
   }
 
+  /*
+  <div className="optionsBar">
+  <div className="hideBy">
+  Hide by <Option default={"Column"}/> for all Value
+  </div>
+  </div>
+  */
+
   render() {
-    //this is an array of strings which are paths you can put directly into img src
-    //TODO: Move this into component didmount, put images array into state, do regex matching here
-    //add more padding to right side of view
-    console.log(this.props.location.pathname);
     return (
         <div className={this.props.location.pathname == "/home" ? 'app' : 'app inactive'}>
           <div className='table'>

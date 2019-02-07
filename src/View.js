@@ -457,6 +457,7 @@ class View extends React.Component {
       delete app['status'];
       delete app['notes'];
       delete app['coffeeChat'];
+      delete app['groupInterview'];
 
       this.setState({
         appId: this.props.match.params.id,
