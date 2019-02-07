@@ -452,6 +452,13 @@ class View extends React.Component {
           subs: [{content: newChat.notes}]});
       }
 
+      const groupInterview = app.groupInterview || 0;
+      if (groupInterview !== 0) {
+        newQs.push({
+          title: "Group Interview",
+          subs: [{content: groupInterview.notes}]});
+      }
+
       //IMPORTANT clean up so we can iterate on left column later
       delete app['interview'];
       delete app['status'];
