@@ -40,10 +40,10 @@ class Option extends React.Component {
             {this.props.default}
           </div>
         </div>
-        <div className={"optionContainerMain " + show}>
+        <div className={"choiceContainerMain " + show}>
           {options.map((opt) => {
             return opt !== this.props.default?
-            <div className="optionMain" onClick={() => this.optionClick(opt)}>
+            <div className="choiceMain" onClick={() => this.optionClick(opt)}>
               {opt}
             </div> :
             <div></div>;
@@ -480,17 +480,19 @@ class App extends React.Component {
     });
   }
 
-  /*
-  <div className="optionsBar">
-  <div className="hideBy">
-  Hide by <Option default={"Column"}/> for all Value
-  </div>
-  </div>
-  */
-
   render() {
     return (
         <div className={this.props.location.pathname == "/home" ? 'app' : 'app inactive'}>
+        <div className="optionsBar">
+          <div className="hideBy">
+            <div className="optionText">Hide by</div>
+            <Option default={"Column"}/>
+            <div className="optionText">
+              for all
+            </div>
+            <Option default={"Value"}/>
+          </div>
+        </div>
           <div className='table'>
             {<Columns
               onClick={(v) => this.columnClick(v)}

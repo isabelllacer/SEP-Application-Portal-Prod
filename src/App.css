@@ -37,18 +37,61 @@ a {
   flex-wrap: nowrap;
   position: relative;
   align-items: center;
+  margin: auto 10px;
+  border-radius: 5px;
   flex: 1;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding: 5px 25px;
   background-color: white;
+  cursor: pointer;
 }
+
 
 .defaultContainerMain {
   margin: default 20px;
 }
 
+.defaultContainerMain:hover {
+  opacity: 0.7;
+}
+
 .hideBy {
   display: flex;
+}
+
+.optionText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choiceContainerMain {
+  font-size: 16px;
+  width: 63%;
+  z-index: 1;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  margin-top: 24px;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  border-radius: 10px;
+}
+
+.choiceMain {
+  padding: 8px 15px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  text-align: center;
+  border-top: 1px solid #F6F6F6;
+}
+
+.choiceMain:hover {
+  opacity: 0.95;
 }
 
 
