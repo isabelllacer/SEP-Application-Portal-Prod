@@ -185,7 +185,7 @@ class HiddenApplicant extends React.Component {
           <div className="actions_container">
             <img className='eye' onClick={this.handleEyeClick} src={gray_eye}/>
           </div>
-          <img className='headshot' src={fill}/>
+          <img className='headshot' src={face}/>
         </div>
         <div>{this.props.value}</div>
       </div>
@@ -350,6 +350,37 @@ class App extends React.Component {
         hidden: newHidden,
         collapse: coll
       });
+    });
+  }
+
+  unhideAllClick(value) {
+    let newItems = this.state.items.slice();
+    let newHides = this.state.hidden.slice();
+    const sorter = this.state.sortBy;
+    const coll = this.state.collapse;
+    const signed = this.state.sign;
+    const cols = this.state.columns.slice();
+
+    let toRemove = [];
+
+    this.state.hidden.map((item, i) => {
+      if (item.status === value) {
+        newItems.push(item);
+        toRemove.push(i);
+      }
+      return;
+    })
+
+    for (var i = toRemove.length -1; i >= 0; i--)
+     newHides.splice(toRemove[i],1);
+
+    this.setState({
+      items: newItems,
+      sortBy: sorter,
+      sign: signed,
+      columns: cols,
+      hidden: newHides,
+      collapse: coll
     });
   }
 
@@ -521,7 +552,7 @@ class App extends React.Component {
           </div>
           <div className="hideBy">
             <div className="optionText">Unide all with status: </div>
-            <Option default={"Status"}/>
+            <Option default={"Select Status"} onClick={(value) => this.unhideAllClick(value)}/>
           </div>
         </div>
           <div className='table'>
