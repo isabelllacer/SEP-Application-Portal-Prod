@@ -30,7 +30,7 @@ class Option extends React.Component {
   }
 
   render() {
-    const options = ["Pending", "Next Round", "Bid", "Cut"]; //change to column names
+    const options = ["Pending", "Next Round", "Bid", "Cut"];
     const show = this.state.active ? "active" : "inactive";
 
     return (
@@ -269,7 +269,7 @@ class App extends React.Component {
       items: [],
       sortBy: "applicant",
       sign: 1,
-      columns: ["major", "year"],
+      columns: ["major", "year", "status"],
       hidden: [],
       collapse: true
     }
@@ -350,6 +350,37 @@ class App extends React.Component {
         hidden: newHidden,
         collapse: coll
       });
+    });
+  }
+
+  hideAllClick(value) {
+    let newItems = this.state.items.slice();
+    let newHides = this.state.hidden.slice();
+    const sorter = this.state.sortBy;
+    const coll = this.state.collapse;
+    const signed = this.state.sign;
+    const cols = this.state.columns.slice();
+
+    let toRemove = [];
+
+    this.state.items.map((item, i) => {
+      if (item.status === value) {
+        newHides.push(item);
+        toRemove.push(i);
+      }
+      return;
+    })
+
+    for (var i = toRemove.length -1; i >= 0; i--)
+     newItems.splice(toRemove[i],1);
+
+    this.setState({
+      items: newItems,
+      sortBy: sorter,
+      sign: signed,
+      columns: cols,
+      hidden: newHides,
+      collapse: coll
     });
   }
 
@@ -479,18 +510,18 @@ class App extends React.Component {
       collapse: coll
     });
   }
-
+  //on cut for option, add all matching items to hidden list. no need for state
   render() {
     return (
         <div className={this.props.location.pathname == "/home" ? 'app' : 'app inactive'}>
         <div className="optionsBar">
           <div className="hideBy">
-            <div className="optionText">Hide by</div>
-            <Option default={"Column"}/>
-            <div className="optionText">
-              for all
-            </div>
-            <Option default={"Value"}/>
+            <div className="optionText">Hide all with status: </div>
+            <Option default={"Select Status"} onClick={(value) => this.hideAllClick(value)}/>
+          </div>
+          <div className="hideBy">
+            <div className="optionText">Unide all with status: </div>
+            <Option default={"Status"}/>
           </div>
         </div>
           <div className='table'>
