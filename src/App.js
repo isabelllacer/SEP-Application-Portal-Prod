@@ -5,7 +5,7 @@ import fill from './pictures/fill.png';
 import gray_star from './pictures/gray_star.png';
 import yellow_star from './pictures/yellow_star.png';
 import gray_eye from './pictures/gray_eye.png';
-import arrow from './pictures/arrow.png';
+import arrow from './pictures/white_arrow.png';
 import { Link, HashRouter, Route } from 'react-router-dom';
 import View from "./View";
 

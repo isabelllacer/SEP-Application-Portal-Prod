@@ -2,7 +2,7 @@ import React from 'react';
 import './View.css';
 import firebase from './firebase.js';
 import fill from './pictures/fill.png';
-import pencil from './pictures/black_pencil.png';
+import pencil from './pictures/white_pencil.png';
 import eye from './pictures/black_eye.png';
 import { Link } from 'react-router-dom';
 

@@ -116,6 +116,7 @@ a {
   margin-bottom: 5px;
   align-items: center;
   text-align: center;
+  border-radius: 5px;
   max-height: 100px;
 }
 
@@ -218,9 +219,11 @@ a {
 }
 
 .columns {
-  background-color: #EAEAEA;
+  background-color: #48889F;
+  border-radius: 5px;
   font-size: 18px;
   font-weight: bold;
+  color: white;
 }
 
 .bolded {
